@@ -1,5 +1,7 @@
-import { useContext } from "react";
 import { UserContext } from "./user";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useContext, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
@@ -23,10 +25,46 @@ const MobileMenu = () => {
 
   const { setMenuBtn } = useContext(UserContext);
 
+  const asideRef = useRef();
+
+  useGSAP(
+    () => {
+      const menu = asideRef.current;
+      const tl = gsap.timeline();
+
+      tl.fromTo(
+        menu,
+        { xPercent: -100 },
+        { xPercent: 0, duration: 0.2 },
+      ).fromTo(
+        ".animNav",
+        { xPercent: -100 },
+        { xPercent: 0, duration: 0.2, stagger: 0.1 },
+      );
+    },
+    { scope: asideRef },
+  );
+
+  const exitAnimation = () => {
+    const menu = asideRef.current;
+    const tl = gsap.timeline();
+
+    tl.fromTo(
+      ".animNav",
+      { xPercent: 0 },
+      { xPercent: -100, duration: 0.2, stagger: 0.1, reversed: true },
+    )
+      .fromTo(menu, { xPercent: 0 }, { xPercent: -100, duration: 0.2 })
+      .call(() => setMenuBtn(false));
+  };
+
   return (
-    <aside className="min-h-screen max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col gap-2 p-4">
+    <aside
+      ref={asideRef}
+      className="min-h-screen max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col gap-2 p-4"
+    >
       <div className="h-fit w-full flex flex-col justify-center">
-        <button onClick={() => setMenuBtn(false)} className="p-2 self-center">
+        <button onClick={() => exitAnimation()} className="p-2 self-center">
           <IoMdClose size={24} />
         </button>
 
@@ -43,7 +81,7 @@ const MobileMenu = () => {
               to={index > 0 ? data.text.toLowerCase() : "."}
               key={index}
               end={index > 0 ? false : true}
-              className="p-4 flex gap-3 items-center text-[#586377] h-full w-full"
+              className="p-4 flex gap-3 animNav items-center text-[#586377] h-full w-full"
             >
               {data.icon}
               <li className="text-xs font-semibold">{data.text}</li>
