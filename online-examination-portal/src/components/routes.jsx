@@ -1,6 +1,10 @@
-import DashboardPage from "../pages/Dashboard Page/dashboardPage";
+import ExamsPage from "../pages/Exams Page/examsPage";
 import LoginPage from "../pages/Login Page/loginPage";
 import { createBrowserRouter } from "react-router-dom";
+import ProfilePage from "../pages/Profile Page/profilePage";
+import DashboardPage from "../pages/Dashboard Page/dashboardPage";
+import PerformancePage from "../pages/Performance Page/performancePage";
+import Layout from "./layout";
 
 const routes = createBrowserRouter([
   {
@@ -14,7 +18,25 @@ const routes = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <DashboardPage />,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
+      },
+      {
+        path: "exams",
+        element: <ExamsPage />,
+      },
+      {
+        path: "performance",
+        element: <PerformancePage />,
+      },
+      {
+        path: "profile",
+        element: <ProfilePage />,
+      },
+    ],
   },
 ]);
 
