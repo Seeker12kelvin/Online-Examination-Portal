@@ -1,9 +1,8 @@
-import ExamsPage from "../pages/Exams Page/examsPage";
-import LoginPage from "../pages/Login Page/loginPage";
+import ExamsPage from "../pages/Exams/examsPage";
+import LoginPage from "../pages/Login/loginPage";
 import { createBrowserRouter } from "react-router-dom";
-import ProfilePage from "../pages/Profile Page/profilePage";
-import DashboardPage from "../pages/Dashboard Page/dashboardPage";
-import PerformancePage from "../pages/Performance Page/performancePage";
+import DashboardPage from "../pages/Dashboard/dashboardPage";
+import PerformancePage from "../pages/Performance/performancePage";
 import Layout from "./layout";
 
 const routes = createBrowserRouter([
@@ -25,18 +24,14 @@ const routes = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
-        path: "exams",
-        element: <ExamsPage />,
-      },
-      {
         path: "performance",
         element: <PerformancePage />,
       },
-      {
-        path: "profile",
-        element: <ProfilePage />,
-      },
     ],
+  },
+  {
+    path: "exams",
+    element: <ExamsPage />,
   },
 ]);
 

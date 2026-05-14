@@ -15,11 +15,10 @@ const MobileMenu = () => {
     { text: "Dashboard", icon: <MdDashboard size={24} /> },
     { text: "Exams", icon: <LiaNewspaper size={24} /> },
     { text: "Performance", icon: <HiChartBar size={24} /> },
-    { text: "Profile", icon: <IoPersonSharp size={24} /> },
   ];
 
   const styling = {
-    backgroundColor: "D6E0F6",
+    background: "#D6E0F6",
     color: "#002045",
   };
 
@@ -81,7 +80,7 @@ const MobileMenu = () => {
               to={index > 0 ? data.text.toLowerCase() : "."}
               key={index}
               end={index > 0 ? false : true}
-              className="p-4 flex gap-3 animNav items-center text-[#586377] h-full w-full"
+              className="p-4 flex gap-3 animNav items-center text-[#586377] h-full w-full rounded-sm"
             >
               {data.icon}
               <li className="text-xs font-semibold">{data.text}</li>
