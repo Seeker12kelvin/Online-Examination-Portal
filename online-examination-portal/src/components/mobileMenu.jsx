@@ -58,7 +58,7 @@ const MobileMenu = () => {
   return (
     <aside
       ref={asideRef}
-      className="min-h-screen max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col z-100 gap-2 p-4"
+      className="min-h-screen max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col z-100 gap-2 p-4 inset-y-0"
     >
       <div className="h-fit w-full flex flex-col justify-center">
         <button onClick={() => exitAnimation()} className="p-2 self-center">
