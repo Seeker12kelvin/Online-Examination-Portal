@@ -1,5 +1,7 @@
-import { MdSubject } from "react-icons/md";
-import { MdStarOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { VscPreview } from "react-icons/vsc";
+import star_image from "../../images/Icon.png";
+import { MdDashboard, MdSubject } from "react-icons/md";
 
 const PerformancePage = () => {
   const blocks = [
@@ -18,11 +20,15 @@ const PerformancePage = () => {
 
   return (
     <section className="min-[1200px]:h-full w-full flex flex-col gap-4 p-10 max-[481px]:p-7 overflow-scroll">
-      <div className="max-w-244 w-full h-fit flex flex-col gap-10">
-        <div className="box border-t-[black] border-t-4 flex flex-col items-center gap-5 max-h-122.5 h-full w-full">
-          <MdStarOutline size={44} className="fill-[#83D8A6]" />
+      <div className="max-w-244 w-full flex flex-col gap-10">
+        <div className="box border-t-[black] border-t-4 flex flex-col items-center gap-5 min-[768px]:h-105.5 max-[768px]:h-fit w-full">
+          <img
+            src={star_image}
+            alt="A star icon"
+            className="fill-[#83D8A6] size-11"
+          />
 
-          <h1 className="text-[28px] font-bold text-[#002045]">
+          <h1 className="text-[28px] font-bold text-[#002045] max-[768px]:text-center">
             Outstanding Performance!
           </h1>
 
@@ -31,8 +37,8 @@ const PerformancePage = () => {
             with an exceptional result.
           </p>
 
-          <div className="border-[#002045] border-8 max-h-44 max-w-44 h-full w-full rounded-full self-center flex flex-col items-center justify-center">
-            <h3 className="text-[#002045] font-semibold text-4xl">
+          <div className="border-[#002045] border-8 min-[768px]:max-h-44 min-[768px]:max-w-44 max-[768px]:h-40 min-[768px]:h-full min-[768px]:w-full max-[768px]:w-40 rounded-full flex flex-col items-center justify-center">
+            <h3 className="text-[#002045] font-semibold min-[768px]:text-4xl max-[768px]:text-3xl">
               75<span className="text-[#002045] text-2xl font-semibold">%</span>
             </h3>
             <p className="text-[#43474E] text-xs font-bold uppercase">
@@ -41,13 +47,13 @@ const PerformancePage = () => {
           </div>
         </div>
 
-        <div className="w-full flex gap-5 items-start">
-          <div className="max-w-160.75 w-full h-fit flex flex-col gap-5">
-            <div className="w-full h-full flex max-[1001px]:flex-wrap justify-between gap-5">
+        <div className="w-full flex max-[1200px]:flex-wrap min-[1200px]:justify-between max-[1200px]:justify-center max-[768px]:gap-10 min-[768px]:gap-5 items-start">
+          <div className="max-w-160.75 w-full h-fit flex flex-col min-[768px]:gap-5 max-[768px]:gap-10">
+            <div className="w-full h-full flex max-[1001px]:flex-wrap justify-center gap-5">
               {blocks.map((data, index) => (
                 <div
                   key={index}
-                  className="bg-[#E9EEF3] w-full max-h-26.5 h-full box flex flex-col gap-2 justify-between text-center"
+                  className="bg-[#E9EEF3] w-full max-h-26.5 max-w-37.25 h-full box rounded-sm flex flex-col gap-2 justify-between text-center"
                 >
                   <h2 className="text-[#43474E] text-xs font-bold">
                     {data.title}
@@ -62,7 +68,7 @@ const PerformancePage = () => {
               ))}
             </div>
 
-            <div className="max-h-76.5 h-full box w-full flex flex-col gap-5">
+            <div className="min-[1200px]:max-h-76.5 min-[1200px]:h-full max-[1200px]:h-fit box w-full flex flex-col gap-5">
               <div className="flex gap-2 items-center">
                 <MdSubject size={24} />
                 <h2 className="text-2xl font-semibold">Subject Proficiency</h2>
@@ -89,10 +95,38 @@ const PerformancePage = () => {
             </div>
           </div>
 
-          <div className="w-full">
-            <button className="bg-[#002045] text-sm font-bold text-white ">
+          <div className="min-[1200px]:max-w-77.25 max-[1200px]:max-w-full w-full flex min-[1200px]:flex-col gap-5 max-[481px]:flex-wrap">
+            <button className="bg-[#002045] text-sm font-bold text-white w-full max-h-17 h-full py-6 flex gap-2 justify-center items-center">
+              <VscPreview size={24} />
               Review Answers
             </button>
+
+            <Link
+              to={"/dashboard"}
+              className="bg-[#E4E9EE] text-sm font-bold text-[#171C20] w-full max-h-17 h-full py-6 flex gap-2 justify-center items-center"
+            >
+              <MdDashboard size={24} />
+              Return to Dashboard
+            </Link>
+
+            <div className="max-h-43.75 h-full bg-[#D6E0F6] w-full p-5 rounded-lg flex flex-col gap-3 max-[1200px]:hidden">
+              <h3 className="text-xs text-[#596376] font-bold">
+                NEXT MILESTONE
+              </h3>
+
+              <p className="text-sm text-[#596376] font-normal">
+                Based on your results, we recommend the Advanced Analytics
+                Seminar starting next week.
+              </p>
+            </div>
+          </div>
+          <div className="max-h-fit h-full bg-[#D6E0F6] w-full p-5 rounded-lg flex flex-col gap-3 min-[1200px]:hidden">
+            <h3 className="text-xs text-[#596376] font-bold">NEXT MILESTONE</h3>
+
+            <p className="text-sm text-[#596376] font-normal">
+              Based on your results, we recommend the Advanced Analytics Seminar
+              starting next week.
+            </p>
           </div>
         </div>
       </div>

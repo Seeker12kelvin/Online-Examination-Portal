@@ -1,20 +1,18 @@
+import gsap from "gsap";
 import { UserContext } from "./user";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import { useContext, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
-import { LiaNewspaper } from "react-icons/lia";
 import { IoPersonSharp } from "react-icons/io5";
 import { BsQuestionCircle } from "react-icons/bs";
 
 const MobileMenu = () => {
   const navBar = [
-    { text: "Dashboard", icon: <MdDashboard size={24} /> },
-    { text: "Exams", icon: <LiaNewspaper size={24} /> },
-    { text: "Performance", icon: <HiChartBar size={24} /> },
+    { text: "Dashboard", icon: <MdDashboard size={24} />, to: "." },
+    { text: "Performance", icon: <HiChartBar size={24} />, to: "performance" },
   ];
 
   const styling = {
@@ -77,7 +75,7 @@ const MobileMenu = () => {
           {navBar.map((data, index) => (
             <NavLink
               style={({ isActive }) => (isActive ? styling : null)}
-              to={index > 0 ? data.text.toLowerCase() : "."}
+              to={data.to}
               key={index}
               end={index > 0 ? false : true}
               className="p-4 flex gap-3 animNav items-center text-[#586377] h-full w-full rounded-sm"

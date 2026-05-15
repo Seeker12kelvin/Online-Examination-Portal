@@ -19,7 +19,7 @@ const DashboardPage = () => {
       </div>
 
       <div className="flex flex-wrap max-[615px]:gap-10 gap-5 items-start max-[615px]:h-fit min-[615px]:h-full max-[1200px]:justify-center">
-        <div className="max-w-160.75 w-full h-fit flex min-[615px]:flex-col max-[615px]:flex-wrap max-[615px]:gap-10 min-[615px]:gap-5">
+        <div className="max-w-160.75 w-full h-fit flex min-[615px]:flex-col max-[615px]:flex-wrap max-[615px]:gap-10 min-[615px]:gap-10">
           <DashboardOverview />
 
           <DashboardQuizzes />
