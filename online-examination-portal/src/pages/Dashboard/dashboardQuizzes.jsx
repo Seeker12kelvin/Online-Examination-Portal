@@ -28,7 +28,7 @@ const DashboardQuizzes = () => {
   ];
 
   return (
-    <div className="animNav flex flex-col gap-4">
+    <div className="animationNav flex flex-col gap-4">
       <div className="flex flex-wrap justify-between items-center animNavtext">
         <h2 className="text-[#171C20] text-2xl font-semibold">
           Available Quizzes

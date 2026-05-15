@@ -6,7 +6,7 @@ const DashboardPerformance = () => {
   ];
 
   return (
-    <div className="animNav max-w-77.25 w-full max-h-130.5 h-full box flex flex-col justify-between">
+    <div className="animationNav max-w-77.25 w-full max-h-130.5 h-full box flex flex-col justify-between">
       <h2 className="animNavtext text-[#43474E] text-xs font-bold uppercase tracking-[0.6px]">
         overall performance
       </h2>

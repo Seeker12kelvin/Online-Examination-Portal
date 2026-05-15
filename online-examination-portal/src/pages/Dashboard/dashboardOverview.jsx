@@ -2,7 +2,7 @@ import { BsCardChecklist } from "react-icons/bs";
 
 const DashboardOverview = () => {
   return (
-    <div className="animNav max-w-160.75 min-[870px]:max-h-68.5 w-full min-[870px]:h-full max-[870px]:h-fit box flex flex-col max-[615px]:gap-5 min-[615px]:gap-2 p-0">
+    <div className="animationNav max-w-160.75 min-[870px]:max-h-68.5 w-full min-[870px]:h-full max-[870px]:h-fit box flex flex-col max-[615px]:gap-5 min-[615px]:gap-2 p-0">
       <div className="p-4 flex flex-col gap-2">
         <div className="bg-[#1A365D] rounded-4xl py-1 px-3 w-fit">
           <p className="text-[#86A0CD] uppercase text-xs animNavtext">

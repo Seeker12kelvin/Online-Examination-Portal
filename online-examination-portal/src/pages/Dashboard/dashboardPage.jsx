@@ -14,7 +14,7 @@ const DashboardPage = () => {
       const tl = gsap.timeline();
 
       tl.fromTo(
-        ".animNav",
+        ".animationNav",
         { scale: 0 },
         { scale: 1, delay: 0.5, duration: 0.2, stagger: 0.1, ease: "none" },
       ).fromTo(
