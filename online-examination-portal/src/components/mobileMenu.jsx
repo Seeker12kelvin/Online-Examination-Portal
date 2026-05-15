@@ -1,5 +1,5 @@
-import gsap from "gsap";
 import { UserContext } from "./user";
+import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useContext, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
@@ -58,7 +58,7 @@ const MobileMenu = () => {
   return (
     <aside
       ref={asideRef}
-      className="min-h-screen max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col gap-2 p-4 z-100"
+      className="min-h-screen max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col z-100 gap-2 p-4"
     >
       <div className="h-fit w-full flex flex-col justify-center">
         <button onClick={() => exitAnimation()} className="p-2 self-center">

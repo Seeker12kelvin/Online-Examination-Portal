@@ -8,11 +8,13 @@ const Layout = () => {
   const { menuBtn } = useContext(UserContext);
 
   return (
-    <main className="w-full h-screen flex">
+    <>
       {menuBtn ? <MobileMenu /> : null}
-      <Menu />
-      <Outlet />
-    </main>
+      <main className="w-screen h-screen flex">
+        <Menu />
+        <Outlet />
+      </main>
+    </>
   );
 };
 
