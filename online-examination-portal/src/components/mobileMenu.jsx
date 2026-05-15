@@ -74,10 +74,11 @@ const MobileMenu = () => {
         <ul className="w-full h-fit flex flex-col items-start justify-start">
           {navBar.map((data, index) => (
             <NavLink
-              style={({ isActive }) => (isActive ? styling : null)}
               to={data.to}
               key={index}
               end={index > 0 ? false : true}
+              onClick={() => exitAnimation()}
+              style={({ isActive }) => (isActive ? styling : null)}
               className="p-4 flex gap-3 animNav items-center text-[#586377] h-full w-full rounded-sm"
             >
               {data.icon}

@@ -16,7 +16,7 @@ const DashboardPage = () => {
       tl.fromTo(
         ".animationNav",
         { scale: 0 },
-        { scale: 1, delay: 0.5, duration: 0.2, stagger: 0.1, ease: "none" },
+        { scale: 1, delay: 0.5, duration: 0.1, stagger: 0.05, ease: "none" },
       ).fromTo(
         ".animNavtext",
         { clipPath: "inset(0 0 100% 0)" },
@@ -35,7 +35,7 @@ const DashboardPage = () => {
   return (
     <section
       ref={sectionRef}
-      className="h-screen w-full flex flex-col gap-4 p-10 max-[481px]:px-7 max-[481px]:pt-7"
+      className="h-full w-full flex flex-col gap-4 p-10 max-[481px]:px-7 max-[481px]:pt-7"
     >
       <div className="border-[#F5FAFF] border-b pb-4 flex justify-between w-full">
         <div className="flex flex-col">

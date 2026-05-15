@@ -1,8 +1,8 @@
 import Menu from "./menu";
-import { Outlet } from "react-router-dom";
-import MobileMenu from "./mobileMenu";
-import { UserContext } from "./user";
 import { useContext } from "react";
+import { UserContext } from "./user";
+import MobileMenu from "./mobileMenu";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   const { menuBtn } = useContext(UserContext);
@@ -10,7 +10,9 @@ const Layout = () => {
   return (
     <>
       {menuBtn ? <MobileMenu /> : null}
-      <main className="w-screen h-screen flex">
+      <main
+        className={`w-screen h-screen flex ${menuBtn ? "max-[481px]:hidden" : ""}`}
+      >
         <Menu />
         <Outlet />
       </main>
