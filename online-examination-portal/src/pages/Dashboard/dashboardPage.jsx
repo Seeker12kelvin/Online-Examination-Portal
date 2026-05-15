@@ -35,7 +35,7 @@ const DashboardPage = () => {
   return (
     <section
       ref={sectionRef}
-      className="min-[1200px]:h-full max-[1200px]:h-full w-full flex flex-col gap-4 p-10 max-[481px]:p-7 overflow-scroll"
+      className="h-screen w-full flex flex-col gap-4 p-10 max-[481px]:px-7 max-[481px]:pt-7"
     >
       <div className="border-[#F5FAFF] border-b pb-4 flex justify-between w-full">
         <div className="flex flex-col">

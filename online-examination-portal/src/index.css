@@ -11,15 +11,12 @@
   @apply border-[#C4C6CF] border rounded-xl bg-white p-6
 }
 
-html, body {
+body {
   width: 100%;
-  overflow: hidden;
   max-width: 100vw;
   min-height: 100vh;
-}
-
-body {
   height: 100%;
+  overflow: hidden;
   background: #F5FAFF;
 }
 

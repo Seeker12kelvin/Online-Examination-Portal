@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { VscPreview } from "react-icons/vsc";
 import star_image from "../../images/Icon.png";
 import { MdDashboard, MdSubject } from "react-icons/md";
+import MenuBtn from "../../components/menuBtn";
 
 const PerformancePage = () => {
   const blocks = [
@@ -19,7 +20,15 @@ const PerformancePage = () => {
   ];
 
   return (
-    <section className="min-[1200px]:h-full w-full flex flex-col gap-4 p-10 max-[481px]:p-7 overflow-scroll">
+    <section className="h-screen w-full flex flex-col gap-4 p-10 max-[481px]:px-7 max-[481px]:pt-7">
+      <div className="border-[#F5FAFF] border-b pb-4 flex justify-between w-full">
+        <div className="flex flex-col">
+          <h1 className="text-2xl text-[#002045] font-semibold animNavtext">
+            Your Performance
+          </h1>
+        </div>
+        <MenuBtn />
+      </div>
       <div className="max-w-244 w-full flex flex-col gap-10">
         <div className="box border-t-[black] border-t-4 flex flex-col items-center gap-5 min-[768px]:h-105.5 max-[768px]:h-fit w-full">
           <img

@@ -10,7 +10,7 @@ const Layout = () => {
   return (
     <>
       {menuBtn ? <MobileMenu /> : null}
-      <main className="w-screen h-screen flex overflow-y-scroll">
+      <main className="w-screen h-screen flex">
         <Menu />
         <Outlet />
       </main>
