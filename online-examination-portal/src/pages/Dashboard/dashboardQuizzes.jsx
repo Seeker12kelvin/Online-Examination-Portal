@@ -28,8 +28,8 @@ const DashboardQuizzes = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap justify-between items-center">
+    <div className="animNav flex flex-col gap-4">
+      <div className="flex flex-wrap justify-between items-center animNavtext">
         <h2 className="text-[#171C20] text-2xl font-semibold">
           Available Quizzes
         </h2>
@@ -43,11 +43,11 @@ const DashboardQuizzes = () => {
           key={index}
           className={`p-5 border-l-[${data.borderColor}] border-l-3 border border-y-[#C4C6CF] border-r-[#C4C6CF] rounded-xl flex flex-wrap max-[1001px]:gap-6 max-[1001px]:justify-center justify-between items-center`}
         >
-          <div className="bg-[#ADC7F7] py-3 px-2 rounded-lg w-fit">
+          <div className="bg-[#ADC7F7] py-3 px-2 rounded-lg w-fit animNavtext">
             {data.icon}
           </div>
 
-          <div className="max-w-90 w-full flex flex-col gap-2">
+          <div className="max-w-90 w-full flex flex-col gap-2 animNavtext">
             <h3 className="text-[#002045] font-bold leading-3 max-[768px]:leading-normal">
               {data.title}
             </h3>
@@ -72,7 +72,7 @@ const DashboardQuizzes = () => {
             </div>
           </div>
 
-          <button className="bg-transparent text-[#002045] font-bold box p-2 max-[930px]:w-[50%] max-[481px]:w-[80%] max-[674px]:w-[50%]">
+          <button className="animNavtext bg-transparent text-[#002045] font-bold box p-2 max-[930px]:w-[50%] max-[481px]:w-[80%] max-[674px]:w-[50%]">
             Start Quiz
           </button>
         </div>

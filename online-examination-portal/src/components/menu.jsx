@@ -1,8 +1,11 @@
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { NavLink } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
 import { IoPersonSharp } from "react-icons/io5";
 import { BsQuestionCircle } from "react-icons/bs";
+import { useRef } from "react";
 
 const Menu = () => {
   const navBar = [
@@ -15,8 +18,31 @@ const Menu = () => {
     color: "#002045",
   };
 
+  const asideRef = useRef();
+
+  useGSAP(
+    () => {
+      const menu = asideRef.current;
+      const tl = gsap.timeline();
+
+      tl.fromTo(
+        menu,
+        { xPercent: -100 },
+        { xPercent: 0, duration: 0.5 },
+      ).fromTo(
+        ".animNav",
+        { xPercent: -100 },
+        { xPercent: 0, duration: 0.5, stagger: 0.25 },
+      );
+    },
+    { scope: asideRef },
+  );
+
   return (
-    <aside className="h-full max-w-[256px] w-full bg-[#EFF4F9] flex flex-col gap-4 max-[768px]:hidden p-4">
+    <aside
+      ref={asideRef}
+      className="h-full max-w-[256px] w-full bg-[#EFF4F9] flex flex-col gap-4 max-[768px]:hidden p-4"
+    >
       <div className="w-full pb-0 p-5">
         <h1 className="text-[28px] font-bold text-[#002045]">EduTest Pro</h1>
       </div>
@@ -31,7 +57,7 @@ const Menu = () => {
               to={data.to}
               key={index}
               end={index > 0 ? false : true}
-              className="p-4 flex gap-3 items-center text-[#586377] h-full w-full rounded-sm"
+              className="animNav p-4 flex gap-3 items-center text-[#586377] h-full w-full rounded-sm"
             >
               {data.icon}
               <li className="text-xs font-semibold">{data.text}</li>
@@ -40,7 +66,7 @@ const Menu = () => {
         </ul>
       </nav>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 animNav">
         <div className="flex gap-2 items-center">
           <BsQuestionCircle size={24} />
           <p className="text-[#43474E] text-xs font-bold">Help Center</p>
