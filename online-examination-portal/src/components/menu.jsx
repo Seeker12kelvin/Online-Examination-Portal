@@ -41,7 +41,7 @@ const Menu = () => {
   return (
     <aside
       ref={asideRef}
-      className="h-full max-w-[256px] w-full bg-[#EFF4F9] flex flex-col gap-4 max-[768px]:hidden p-4"
+      className="min-h-screen h-full max-w-[256px] w-full bg-[#EFF4F9] flex flex-col gap-4 max-[768px]:hidden p-4"
     >
       <div className="w-full pb-0 p-5">
         <h1 className="text-[28px] font-bold text-[#002045]">EduTest Pro</h1>

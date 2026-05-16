@@ -50,7 +50,7 @@ const PerformancePage = () => {
   return (
     <section
       ref={sectionRef}
-      className="h-screen w-full flex flex-col gap-4 p-10 max-[481px]:px-7 max-[481px]:pt-7"
+      className="h-screen w-full flex flex-col gap-4 p-10 max-[481px]:px-7 max-[481px]:pt-7 overflow-y-scroll"
     >
       <div className="border-[#F5FAFF] border-b pb-4 flex justify-between w-full">
         <div className="flex flex-col">

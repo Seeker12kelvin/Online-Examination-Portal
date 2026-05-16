@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardPage from "../pages/Dashboard/dashboardPage";
 import PerformancePage from "../pages/Performance/performancePage";
 import Layout from "./layout";
+import ProtectedLayouts from "./protectedLayouts";
 
 const routes = createBrowserRouter([
   {
@@ -17,21 +18,37 @@ const routes = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Layout />,
+    element: (
+      <ProtectedLayouts>
+        <Layout />
+      </ProtectedLayouts>
+    ),
     children: [
       {
         index: true,
-        element: <DashboardPage />,
+        element: (
+          <ProtectedLayouts>
+            <DashboardPage />
+          </ProtectedLayouts>
+        ),
       },
       {
         path: "performance",
-        element: <PerformancePage />,
+        element: (
+          <ProtectedLayouts>
+            <PerformancePage />
+          </ProtectedLayouts>
+        ),
       },
     ],
   },
   {
     path: "exams",
-    element: <ExamsPage />,
+    element: (
+      <ProtectedLayouts>
+        <ExamsPage />
+      </ProtectedLayouts>
+    ),
   },
 ]);
 
