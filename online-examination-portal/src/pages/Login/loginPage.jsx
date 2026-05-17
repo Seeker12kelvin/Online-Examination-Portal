@@ -3,23 +3,22 @@ import { FaLock } from "react-icons/fa";
 import { IoMdKey } from "react-icons/io";
 import { IoPerson } from "react-icons/io5";
 import { auth } from "../../firebase/config";
-import { useNavigate } from "react-router-dom";
 import { LuShieldCheck } from "react-icons/lu";
 import { UserContext } from "../../components/user";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage = () => {
-  const { userData, setUserData, user } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { userData, setUserData } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = userData;
 
     try {
       const userCrendentials = await signInWithEmailAndPassword(
         auth,
-        userData.userId,
-        userData.password,
+        email,
+        password,
       );
       console.log(userCrendentials);
     } catch (err) {
@@ -27,9 +26,6 @@ const LoginPage = () => {
     }
   };
 
-  // if (user) {
-  //   return navigate("/dashboard");
-  // } else {
   return (
     <section className="h-screen w-full flex flex-col gap-10 p-5 justify-center items-center">
       <div className="flex flex-col gap-1 justify-center items-center">
@@ -54,7 +50,7 @@ const LoginPage = () => {
             <input
               required
               type="text"
-              name="student-Id"
+              name="student-email"
               placeholder="Enter your ID number or Email"
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, email: e.target.value }))
@@ -102,7 +98,6 @@ const LoginPage = () => {
       </form>
     </section>
   );
-  // }
 };
 
 export default LoginPage;

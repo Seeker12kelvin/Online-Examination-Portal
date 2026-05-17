@@ -5,10 +5,10 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const UserAuth = ({ children }) => {
   const [userData, setUserData] = useState({
+    name: "",
+    email: "",
     userId: "",
     password: "",
-    name: "",
-    studentId: "",
     department: "",
   });
   const [menuBtn, setMenuBtn] = useState(false);
