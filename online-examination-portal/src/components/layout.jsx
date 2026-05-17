@@ -11,7 +11,7 @@ const Layout = () => {
     <>
       {menuBtn ? <MobileMenu /> : null}
       <main
-        className={`w-screen h-screen flex ${menuBtn ? "max-[481px]:hidden" : ""} min-[1200px]:overflow-y-hidden min-[1200px]:fixed`}
+        className={`w-screen h-screen flex justify-center items-center ${menuBtn ? "max-[481px]:hidden" : ""} min-[1200px]:overflow-y-hidden min-[1200px]:fixed`}
       >
         <Menu />
         <Outlet />
