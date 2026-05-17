@@ -50,7 +50,7 @@ const LoginPage = () => {
           </div>
 
           <label className="text-[#43474E] font-bold text-xs flex flex-col gap-2">
-            STUDENT ID
+            INSTITUTIONAL EMAIL
             <div className="border border-[#C4C6CF] h-13.5 flex gap-4 items-center p-4">
               <IoPerson size={20} />
               <input
@@ -59,7 +59,7 @@ const LoginPage = () => {
                 name="student-Id"
                 placeholder="Enter your ID number or Email"
                 onChange={(e) =>
-                  setUserData((prev) => ({ ...prev, userId: e.target.value }))
+                  setUserData((prev) => ({ ...prev, email: e.target.value }))
                 }
                 className="placeholder:text-[#6B7280] outline-none h-full w-full placeholder:text-sm"
               />

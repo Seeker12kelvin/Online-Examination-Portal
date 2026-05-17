@@ -4,7 +4,13 @@ import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 
 const UserAuth = ({ children }) => {
-  const [userData, setUserData] = useState({ userId: "", password: "" });
+  const [userData, setUserData] = useState({
+    userId: "",
+    password: "",
+    name: "",
+    studentId: "",
+    department: "",
+  });
   const [menuBtn, setMenuBtn] = useState(false);
   const [user, setUser] = useState(false);
 
