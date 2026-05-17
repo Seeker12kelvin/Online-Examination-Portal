@@ -1,8 +1,31 @@
 import gsap from "gsap";
+import { useEffect, useState } from "react";
 import { LuTimer } from "react-icons/lu";
 import { MdNavigateNext } from "react-icons/md";
 
 const ExamsPage = () => {
+  // const [questions, setQuestions] = useState();
+  // const [options, setOptions] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchQuestion = async () => {
+  //     try {
+  //       const data = await fetch(
+  //         `https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple`,
+  //       );
+  //       if (!data.ok) {
+  //         return console.log("Could not fetch data");
+  //       }
+  //       const res = await data.json();
+  //       console.log(res.results[0]);
+  //       setQuestions(res.results[0].question);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+  //   fetchQuestion();
+  // }, []);
+
   const answers = [
     "Bauhaus Functionalism",
     "Modern Minimalism",
@@ -40,9 +63,7 @@ const ExamsPage = () => {
             <p className="text-xs text-[#43474E] font-bold">4 Points</p>
           </div>
           <h1 className="font-medium min-[1200px]:text-lg max-[1120px]:text-sm text-[#171C20] leading-7">
-            Which of the following architectural styles emphasizes a "less is
-            more" philosophy, characterized by simplicity, clean lines, and a
-            monochromatic palette with color used as an accent?
+            {/* {questions} */}
           </h1>
 
           <div className="flex flex-col gap-4">

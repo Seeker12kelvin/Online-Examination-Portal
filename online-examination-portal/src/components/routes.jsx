@@ -4,11 +4,13 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardPage from "../pages/Dashboard/dashboardPage";
 import PerformancePage from "../pages/Performance/performancePage";
 import Layout from "./layout";
+import ProtectedLayouts from "./protectedLayouts";
+import SignUpPage from "../pages/Sign-up/signUpPage";
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <LoginPage />,
+    element: <SignUpPage />,
     errorElement: (
       <div className="w-full h-screen flex justify-center items-center text-6xl">
         404: Not Found
@@ -16,22 +18,42 @@ const routes = createBrowserRouter([
     ),
   },
   {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
     path: "dashboard",
-    element: <Layout />,
+    element: (
+      <ProtectedLayouts>
+        <Layout />
+      </ProtectedLayouts>
+    ),
     children: [
       {
         index: true,
-        element: <DashboardPage />,
+        element: (
+          <ProtectedLayouts>
+            <DashboardPage />
+          </ProtectedLayouts>
+        ),
       },
       {
         path: "performance",
-        element: <PerformancePage />,
+        element: (
+          <ProtectedLayouts>
+            <PerformancePage />
+          </ProtectedLayouts>
+        ),
       },
     ],
   },
   {
     path: "exams",
-    element: <ExamsPage />,
+    element: (
+      <ProtectedLayouts>
+        <ExamsPage />
+      </ProtectedLayouts>
+    ),
   },
 ]);
 

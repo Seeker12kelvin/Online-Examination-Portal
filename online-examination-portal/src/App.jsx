@@ -1,15 +1,12 @@
-import { useState } from "react";
 import routes from "./components/routes";
-import { UserContext } from "./components/user";
+import UserAuth from "./components/userAuth";
 import { RouterProvider } from "react-router-dom";
 
 function App() {
-  const [menuBtn, setMenuBtn] = useState(false);
-
   return (
-    <UserContext.Provider value={{ menuBtn, setMenuBtn }}>
+    <UserAuth>
       <RouterProvider router={routes} />
-    </UserContext.Provider>
+    </UserAuth>
   );
 }
 
