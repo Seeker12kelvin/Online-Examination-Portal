@@ -5,29 +5,27 @@ import { IoPerson } from "react-icons/io5";
 import { auth } from "../../firebase/config";
 import { LuShieldCheck } from "react-icons/lu";
 import { UserContext } from "../../components/user";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage = () => {
   const { userData, setUserData } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = userData;
 
     try {
-      const userCrendentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      console.log(userCrendentials);
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/dashboard");
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <section className="h-screen w-full flex flex-col gap-10 p-5 justify-center items-center">
+    <main className="max-md:h-dvh md:h-screen w-full flex flex-col gap-10 p-5 justify-center items-center fixed top-0 left-0">
       <div className="flex flex-col gap-1 justify-center items-center">
         <h1 className="text-[#002045] text-[28px] font-bold">EduTest Pro</h1>
 
@@ -51,7 +49,7 @@ const LoginPage = () => {
               required
               type="text"
               name="student-email"
-              placeholder="Enter your ID number or Email"
+              placeholder="Enter your email address"
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, email: e.target.value }))
               }
@@ -93,10 +91,13 @@ const LoginPage = () => {
         </button>
 
         <p className="text-sm text-[#002045] text-center">
-          Technical support or forgot password?
+          Don't have an account?{" "}
+          <Link to={"/"} className="text-[#002045]">
+            Sign Up
+          </Link>
         </p>
       </form>
-    </section>
+    </main>
   );
 };
 
