@@ -3,7 +3,7 @@ import SignUpPageForm from "./signUpPageForm";
 
 const SignUpPage = () => {
   return (
-    <main className="max-md:h-dvh md:h-screen w-full flex flex-col max-sm:gap-4 gap-7 max-sm:pt-5 px-5 justify-center items-center fixed top-0 left-0">
+    <main className="max-md:h-dvh md:h-screen w-full flex flex-col max-sm:gap-4 gap-7 max-sm:pt-5 px-5 justify-center items-center">
       <div className="flex flex-col gap-1 justify-center items-center">
         <h1 className="text-[#002045] text-[28px] font-bold">
           Create Your Account
