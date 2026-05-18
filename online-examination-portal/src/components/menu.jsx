@@ -1,11 +1,12 @@
 import gsap from "gsap";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { NavLink } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
 import { IoPersonSharp } from "react-icons/io5";
 import { BsQuestionCircle } from "react-icons/bs";
-import { useRef } from "react";
+import { handleLogOut } from "../firebase/firestore";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Menu = () => {
   const navBar = [
@@ -18,6 +19,7 @@ const Menu = () => {
     color: "#002045",
   };
 
+  const navigate = useNavigate();
   const asideRef = useRef();
 
   useGSAP(
@@ -81,6 +83,16 @@ const Menu = () => {
             </p>
           </div>
         </div>
+
+        <button
+          className="px-6 py-3 min-[481px]:w-full bg-[#002045] rounded-lg text-white"
+          onClick={() => {
+            handleLogOut();
+            navigate("/login");
+          }}
+        >
+          Logout
+        </button>
       </div>
     </aside>
   );

@@ -1,13 +1,14 @@
-import { UserContext } from "./user";
 import gsap from "gsap";
+import { UserContext } from "./user";
 import { useGSAP } from "@gsap/react";
 import { useContext, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
-import { NavLink } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
 import { IoPersonSharp } from "react-icons/io5";
 import { BsQuestionCircle } from "react-icons/bs";
+import { handleLogOut } from "../firebase/firestore";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const MobileMenu = () => {
   const navBar = [
@@ -21,6 +22,7 @@ const MobileMenu = () => {
   };
 
   const { setMenuBtn } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const asideRef = useRef();
 
@@ -58,7 +60,7 @@ const MobileMenu = () => {
   return (
     <aside
       ref={asideRef}
-      className="h-dvh min-[481px]:max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col z-100 gap-2 p-4 inset-y-0"
+      className="h-dvh min-[481px]:max-w-62.5 fixed w-full bg-[#EFF4F9] flex flex-col z-100 gap-2 p-4 inset-y-0 md:hidden"
     >
       <div className="h-fit w-full flex flex-col justify-center">
         <button onClick={() => exitAnimation()} className="p-2 self-center">
@@ -88,21 +90,33 @@ const MobileMenu = () => {
         </ul>
       </nav>
 
-      <div className="flex flex-col gap-4 absolute bottom-10 left-4">
-        <div className="flex gap-2 items-center">
-          <BsQuestionCircle size={24} />
-          <p className="text-[#43474E] text-xs font-bold">Help Center</p>
-        </div>
+      <div className="flex flex-wrap w-full max-[481px]:justify-end">
+        <div className="flex flex-col gap-4 absolute max-[481px]:bottom-3.5 min-[481px]:bottom-20 left-4">
+          <div className="flex gap-2 items-center">
+            <BsQuestionCircle size={24} />
+            <p className="text-[#43474E] text-xs font-bold">Help Center</p>
+          </div>
 
-        <div className="flex gap-2 items-center">
-          <IoPersonSharp size={34} />
-          <div className="flex flex-col">
-            <p className="text-[#43474E] text-sm font-bold">Alex Johnson</p>
-            <p className="text-[10px] text-[#43474E] uppercase">
-              level 4 student
-            </p>
+          <div className="flex gap-2 items-center">
+            <IoPersonSharp size={34} />
+            <div className="flex flex-col">
+              <p className="text-[#43474E] text-sm font-bold">Alex Johnson</p>
+              <p className="text-[10px] text-[#43474E] uppercase">
+                level 4 student
+              </p>
+            </div>
           </div>
         </div>
+
+        <button
+          className="px-6 py-3 min-[481px]:w-full bg-[#002045] rounded-lg text-white"
+          onClick={async () => {
+            await handleLogOut();
+            navigate("/login");
+          }}
+        >
+          Logout
+        </button>
       </div>
     </aside>
   );

@@ -1,17 +1,19 @@
 import { auth } from "../../firebase/config";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../components/user";
-import { registerUser } from "../../firebase/firestore";
+// import { registerUser } from "../../firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const SignUpPageForm = () => {
   const { userData, setUserData } = useContext(UserContext);
   const [passVis, setPassVis] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, userId, password, department } = userData;
+    const { email, password } = userData;
 
     try {
       // This is for registering the users' email and password
@@ -24,6 +26,7 @@ const SignUpPageForm = () => {
 
       // This is calling the registerUser function
       // registerUser(name, email, userId, password, department);
+      navigate("/login");
     } catch (err) {
       console.error(err);
     }
@@ -68,7 +71,7 @@ const SignUpPageForm = () => {
           required
           type="text"
           name="student-email"
-          placeholder="j.doe@university.edu"
+          placeholder="jodoe@gmail.com"
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, email: e.target.value }))
           }
@@ -117,7 +120,7 @@ const SignUpPageForm = () => {
         </div>
       </label>
 
-      <label className="flex gap-2 items-center text-sm text-[#43474E] font-normal">
+      <label className="flex gap-2 items-center text-sm text-[#43474E] font-normal max-md:text-xs">
         <input type="checkbox" /> I agree to the Terms of Service and Privacy
         Policy.
       </label>

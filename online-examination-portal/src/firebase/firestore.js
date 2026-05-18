@@ -1,5 +1,6 @@
 import { addDoc, collection, getDocs } from "firebase/firestore";
-import { db } from "./config";
+import { auth, db } from "./config";
+import { signOut } from "firebase/auth";
 
 // This function is for registering all the users' data to the database
 export async function registerUser(name, email, userId, password, department) {
@@ -16,6 +17,16 @@ export async function registerUser(name, email, userId, password, department) {
     console.error('Error uploading data to the database: ', err);
   }
 }
+
+// Log Out function
+export const handleLogOut = async () => {
+  try {
+    await signOut(auth);
+    console.log("Logged Out succesfully");
+  } catch (err) {
+    console.error("Error logging out: ", err);
+  }
+};
 
 // This function is for fetching all of the users' data from the database
 export async function fetchUsers() {
