@@ -48,11 +48,11 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    path: "exams",
+    path: "exams/:title",
     element: (
-      <ProtectedLayouts>
-        <ExamsPage />
-      </ProtectedLayouts>
+      // <ProtectedLayouts>
+      <ExamsPage />
+      // </ProtectedLayouts>
     ),
   },
 ]);

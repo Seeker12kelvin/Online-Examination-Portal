@@ -1,7 +1,8 @@
 import { UserContext } from "./user";
 import { auth } from "../firebase/config";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
+import { fetchUsers } from "../firebase/firestore";
 
 const UserAuth = ({ children }) => {
   const [userData, setUserData] = useState({
@@ -9,15 +10,28 @@ const UserAuth = ({ children }) => {
     email: "",
     userId: "",
     password: "",
-    department: "",
+    department: "Computer Science",
   });
+
+  const [examNum, setExamNum] = useState(0);
+
+  const handleExamNum = useCallback(() => {
+    setExamNum((prev) => prev + 1);
+  }, []);
+
   const [menuBtn, setMenuBtn] = useState(false);
+
   const [user, setUser] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(true);
+        const userInfo = await fetchUsers();
+        userInfo.forEach((data) =>
+          setUserData((prev) => ({ ...prev, name: data.name })),
+        );
+
         console.log("user is authenticated");
       } else {
         console.log("user is not authenticated");
@@ -28,12 +42,22 @@ const UserAuth = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  const contextValue = useMemo(
+    () => ({
+      userData,
+      setUserData,
+      menuBtn,
+      setMenuBtn,
+      user,
+      examNum,
+      setExamNum,
+      handleExamNum,
+    }),
+    [userData, menuBtn, user, examNum, handleExamNum],
+  );
+
   return (
-    <UserContext.Provider
-      value={{ userData, setUserData, menuBtn, setMenuBtn, user }}
-    >
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
 

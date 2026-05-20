@@ -30,14 +30,14 @@ export const handleLogOut = async () => {
 
 // This function is for fetching all of the users' data from the database
 export async function fetchUsers() {
-
   try{
     const querySnapshot = await getDocs(collection(db, "users"));
-  
-    return querySnapshot.forEach((doc) => {
-      doc.data()
+    const data = []
+    querySnapshot.forEach((doc) => {
+      data.push(doc.data())
     });
+    return data
   } catch(err){
-    console.error('Error retrieving data to the database: ', err)
+    console.error('Error retrieving data from the database: ', err)
   }
 };

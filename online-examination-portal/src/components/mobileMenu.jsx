@@ -21,7 +21,9 @@ const MobileMenu = () => {
     color: "#002045",
   };
 
-  const { setMenuBtn } = useContext(UserContext);
+  const { userData, setMenuBtn } = useContext(UserContext);
+  const { name, department } = userData;
+  const fullName = `${name.split(" ")[0]} ${name.split(" ")[2]}`;
   const navigate = useNavigate();
 
   const asideRef = useRef();
@@ -100,9 +102,9 @@ const MobileMenu = () => {
           <div className="flex gap-2 items-center">
             <IoPersonSharp size={34} />
             <div className="flex flex-col">
-              <p className="text-[#43474E] text-sm font-bold">Alex Johnson</p>
+              <p className="text-[#43474E] text-sm font-bold">{fullName}</p>
               <p className="text-[10px] text-[#43474E] uppercase">
-                level 4 student
+                Department: {department}
               </p>
             </div>
           </div>
