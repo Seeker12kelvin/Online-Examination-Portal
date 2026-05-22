@@ -34,12 +34,10 @@ const SignUpPageForm = () => {
           password,
         );
 
+        const uid = userCrendentials.user.uid;
+
         // This is calling the registerUser function
-        registerUser(name, email, userId, password, department);
-
-        console.log(userCrendentials.user);
-
-        console.log(name, email, userId, password, department);
+        await registerUser(name, email, userId, password, department, uid);
 
         setSignUpText(true);
 

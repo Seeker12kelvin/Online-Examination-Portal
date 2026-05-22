@@ -1,4 +1,11 @@
+import { useContext } from "react";
+import { UserContext } from "../../components/user";
+
 const DashboardPerformance = () => {
+  const { examScoreInfo } = useContext(UserContext);
+
+  const { percentage } = examScoreInfo;
+
   const performanceList = [
     { text: "Exams Taken", num: "12" },
     { text: "Average Score", num: "82/100" },
@@ -13,7 +20,8 @@ const DashboardPerformance = () => {
 
       <div className="border-[#002045] border-8 max-h-35 max-w-35 h-full w-full rounded-full self-center flex flex-col items-center justify-center animNavtext">
         <h3 className="text-[#002045] font-semibold text-4xl">
-          75<span className="text-[#002045] text-2xl font-semibold">%</span>
+          {percentage || 75}
+          <span className="text-[#002045] text-2xl font-semibold">%</span>
         </h3>
         <p className="text-[#43474E] text-xs font-bold uppercase">
           success rate

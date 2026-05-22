@@ -35,7 +35,7 @@ const DashboardQuizzes = () => {
     <div className="animationNav flex flex-col gap-4">
       <div className="flex flex-wrap justify-between items-center animNavtext">
         <h2 className="text-[#171C20] text-2xl font-semibold">
-          Available Quizzes
+          Upcoming Quizzes
         </h2>
       </div>
 
@@ -66,19 +66,19 @@ const DashboardQuizzes = () => {
               </div>
               <div className="flex gap-1 items-center">
                 <AiOutlineStock />
-                <p className="text-[#002715] text-xs font-bold">
+                <p className="text-[#005231] text-xs font-bold uppercase">
                   {data.urgency}
                 </p>
               </div>
             </div>
           </div>
 
-          <Link
-            to={`/exams/${data.title}`}
-            className="animNavtext flex justify-center items-center bg-transparent text-[#002045] font-bold box p-2 max-[930px]:w-[50%] max-[481px]:w-[80%] max-[674px]:w-[50%]"
+          <button
+            disabled
+            className="animNavtext flex justify-center items-center bg-transparent border-[#002045] border-[1.5px] rounded-sm text-[#002045] font-bold p-2 max-[930px]:w-[50%] max-[481px]:w-[80%] max-[674px]:w-[50%] opacity-50"
           >
             Start Quiz
-          </Link>
+          </button>
         </div>
       ))}
     </div>

@@ -5,7 +5,6 @@ import { useContext, useRef } from "react";
 import { MdDashboard } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
 import { IoPersonSharp } from "react-icons/io5";
-import { BsQuestionCircle } from "react-icons/bs";
 import { handleLogOut } from "../firebase/firestore";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -73,11 +72,6 @@ const Menu = () => {
       </nav>
 
       <div className="flex flex-col gap-4 animNav">
-        <div className="flex gap-2 items-center">
-          <BsQuestionCircle size={24} />
-          <p className="text-[#43474E] text-xs font-bold">Help Center</p>
-        </div>
-
         <div className="flex gap-2 items-center">
           <IoPersonSharp size={34} />
           <div className="flex flex-col">

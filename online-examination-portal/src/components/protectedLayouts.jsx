@@ -5,7 +5,7 @@ import animation from "../images/835.gif";
 const ProtectedLayouts = ({ children }) => {
   const { user, userData } = useContext(UserContext);
 
-  return user === true && userData === true ? (
+  return user && userData ? (
     children
   ) : (
     <div className="h-screen w-full flex flex-col gap-3 justify-center items-center bg-[#ffffff49]">

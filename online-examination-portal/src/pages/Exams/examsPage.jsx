@@ -4,6 +4,7 @@ import { MdDashboard, MdNavigateNext } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../components/user";
 import { computer_science, information_science } from "../data/data";
+import { handleExamLogic } from "../../firebase/firestore";
 
 const EXAM_SETS = {
   "computer science": computer_science,
@@ -11,14 +12,17 @@ const EXAM_SETS = {
   "modern history: the industrial revolution": information_science,
 };
 
+const TOTAL_TIME = 60 * 20;
+
 const ExamRunner = ({ title }) => {
   const { handleExamNum } = useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [reviewed, setReviewed] = useState({});
-  const [timeLeft, setTimeLeft] = useState(60 * 20);
+  const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(null);
+  const [skippedQuestions, setSkippedQuestions] = useState();
   const answersRef = useRef(answers);
 
   const questions = useMemo(() => {
@@ -95,6 +99,11 @@ const ExamRunner = ({ title }) => {
       0,
     );
 
+    const skippedQuestions = questions.filter(
+      (question) => !answers[question.id],
+    );
+
+    setSkippedQuestions(skippedQuestions.length);
     setScore(calculatedScore);
     setFinished(true);
     handleExamNum();
@@ -106,6 +115,28 @@ const ExamRunner = ({ title }) => {
     return `${minutes.toString().padStart(2, "0")}:${secs
       .toString()
       .padStart(2, "0")}`;
+  };
+
+  const handleExam = async () => {
+    const uid = localStorage.getItem("user");
+    const dividedScore = score / questions.length;
+    const percentage = Math.round(dividedScore * 100);
+    const calculate = percentage / 100;
+    const correct = Math.floor(calculate * questions.length);
+    const incorrect = questions.length - correct;
+    const timeSpent = TOTAL_TIME - timeLeft;
+    const remainingTime = formatDuration(timeSpent);
+    await handleExamLogic(
+      { percentage, skippedQuestions, correct, incorrect, remainingTime },
+      uid,
+    );
+  };
+
+  const formatDuration = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+
+    return `${minutes}m : ${secs}s`;
   };
 
   return (
@@ -133,13 +164,18 @@ const ExamRunner = ({ title }) => {
                 You answered {Object.keys(answers).length} of {questions.length}{" "}
                 questions.
               </p>
-              <Link
-                to={"/dashboard"}
-                className="animationNav bg-[#E4E9EE] text-sm font-bold text-[#171C20] w-fit max-h-17 h-full rounded-sm max-[345px]:p-4 p-6 flex gap-2 justify-center items-center"
+              <h2 className="text-[#43474E] text-xl">
+                Score: {score}/{questions.length}
+              </h2>
+              <button
+                onClick={() => handleExam()}
+                className="animationNav bg-[#E4E9EE] text-sm font-bold text-[#171C20] w-fit max-h-17 h-full rounded-sm max-[345px]:p-4 p-6"
               >
-                <MdDashboard size={24} />
-                Return to Dashboard
-              </Link>
+                <Link to={"/dashboard"} className="flex items-center gap-2">
+                  <MdDashboard size={24} />
+                  Return to Dashboard
+                </Link>
+              </button>
             </div>
           ) : questions.length ? (
             <div className="w-full min-[1200px]:max-h-127 min-[1200px]:h-full max-[1200px]:h-fit box flex flex-col gap-5">
