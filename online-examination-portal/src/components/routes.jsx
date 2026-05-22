@@ -31,24 +31,16 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <ProtectedLayouts>
-            <DashboardPage />
-          </ProtectedLayouts>
-        ),
+        element: <DashboardPage />,
       },
       {
         path: "performance",
-        element: (
-          <ProtectedLayouts>
-            <PerformancePage />
-          </ProtectedLayouts>
-        ),
+        element: <PerformancePage />,
       },
     ],
   },
   {
-    path: "exams",
+    path: "exams/:title",
     element: (
       <ProtectedLayouts>
         <ExamsPage />

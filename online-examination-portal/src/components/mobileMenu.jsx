@@ -6,7 +6,6 @@ import { IoMdClose } from "react-icons/io";
 import { MdDashboard } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
 import { IoPersonSharp } from "react-icons/io5";
-import { BsQuestionCircle } from "react-icons/bs";
 import { handleLogOut } from "../firebase/firestore";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -21,7 +20,9 @@ const MobileMenu = () => {
     color: "#002045",
   };
 
-  const { setMenuBtn } = useContext(UserContext);
+  const { userData, setMenuBtn } = useContext(UserContext);
+  const { name, department } = userData;
+  const fullName = `${name.split(" ")[0]} ${name.split(" ")[2]}`;
   const navigate = useNavigate();
 
   const asideRef = useRef();
@@ -93,16 +94,11 @@ const MobileMenu = () => {
       <div className="flex flex-wrap w-full max-[481px]:justify-end">
         <div className="flex flex-col gap-4 absolute max-[481px]:bottom-3.5 min-[481px]:bottom-20 left-4">
           <div className="flex gap-2 items-center">
-            <BsQuestionCircle size={24} />
-            <p className="text-[#43474E] text-xs font-bold">Help Center</p>
-          </div>
-
-          <div className="flex gap-2 items-center">
             <IoPersonSharp size={34} />
             <div className="flex flex-col">
-              <p className="text-[#43474E] text-sm font-bold">Alex Johnson</p>
+              <p className="text-[#43474E] text-sm font-bold">{fullName}</p>
               <p className="text-[10px] text-[#43474E] uppercase">
-                level 4 student
+                Department: {department}
               </p>
             </div>
           </div>

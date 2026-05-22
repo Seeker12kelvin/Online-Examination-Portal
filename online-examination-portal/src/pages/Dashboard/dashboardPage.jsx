@@ -1,13 +1,17 @@
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { useContext, useRef } from "react";
 import MenuBtn from "../../components/menuBtn";
 import DashboardQuizzes from "./dashboardQuizzes";
 import DashboardOverview from "./dashboardOverview";
+import { UserContext } from "../../components/user";
 import DashboardPerformance from "./dashboardPerformance";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useRef } from "react";
 
 const DashboardPage = () => {
+  const { userData } = useContext(UserContext);
+  const { name, department } = userData;
   const sectionRef = useRef();
+  const fullName = name.split(" ")[0];
 
   useGSAP(
     () => {
@@ -43,7 +47,7 @@ const DashboardPage = () => {
             Student Dashboard
           </h1>
           <p className="text-[#43474E] text-sm animNavtext">
-            Welcome back, Alex. You have 2 exams this week.
+            Welcome back, {fullName}.
           </p>
         </div>
         <MenuBtn />
@@ -51,8 +55,7 @@ const DashboardPage = () => {
 
       <div className="flex flex-wrap max-[615px]:gap-10 gap-5 items-start max-[615px]:h-fit min-[615px]:h-full max-[1200px]:justify-center">
         <div className="max-w-160.75 w-full h-fit flex min-[615px]:flex-col max-[615px]:flex-wrap max-[615px]:gap-10 min-[615px]:gap-10">
-          <DashboardOverview />
-
+          <DashboardOverview department={department} />
           <DashboardQuizzes />
         </div>
 

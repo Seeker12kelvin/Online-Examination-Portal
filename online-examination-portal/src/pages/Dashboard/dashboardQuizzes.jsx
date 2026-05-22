@@ -1,15 +1,19 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { TfiWrite } from "react-icons/tfi";
 import { BsQuestion } from "react-icons/bs";
 import { IoMdStopwatch } from "react-icons/io";
 import { AiOutlineStock } from "react-icons/ai";
 import { TbMicroscopeFilled } from "react-icons/tb";
+import { UserContext } from "../../components/user";
 
 const DashboardQuizzes = () => {
+  const { examNum, handleExamNum } = useContext(UserContext);
+
   const cardsDetail = [
     {
       icon: <TbMicroscopeFilled size={30} />,
-      title: "Molecular Biology: DNA Replication",
+      title: "Computer Science",
       desc: "A detailed assessment covering helicase functions, Okazaki fragments, and polymerase error rates.",
       time: "20 MIN",
       num_of_quest: "15 Qs",
@@ -31,11 +35,8 @@ const DashboardQuizzes = () => {
     <div className="animationNav flex flex-col gap-4">
       <div className="flex flex-wrap justify-between items-center animNavtext">
         <h2 className="text-[#171C20] text-2xl font-semibold">
-          Available Quizzes
+          Upcoming Quizzes
         </h2>
-        <Link to={"."} className="text-[#002045] font-bold text-xs uppercase">
-          view all
-        </Link>
       </div>
 
       {cardsDetail.map((data, index) => (
@@ -65,14 +66,17 @@ const DashboardQuizzes = () => {
               </div>
               <div className="flex gap-1 items-center">
                 <AiOutlineStock />
-                <p className="text-[#002715] text-xs font-bold">
+                <p className="text-[#005231] text-xs font-bold uppercase">
                   {data.urgency}
                 </p>
               </div>
             </div>
           </div>
 
-          <button className="animNavtext bg-transparent text-[#002045] font-bold box p-2 max-[930px]:w-[50%] max-[481px]:w-[80%] max-[674px]:w-[50%]">
+          <button
+            disabled
+            className="animNavtext flex justify-center items-center bg-transparent border-[#002045] border-[1.5px] rounded-sm text-[#002045] font-bold p-2 max-[930px]:w-[50%] max-[481px]:w-[80%] max-[674px]:w-[50%] opacity-50"
+          >
             Start Quiz
           </button>
         </div>

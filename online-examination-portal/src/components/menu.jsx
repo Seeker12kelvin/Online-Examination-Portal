@@ -1,10 +1,10 @@
 import gsap from "gsap";
-import { useRef } from "react";
+import { UserContext } from "./user";
 import { useGSAP } from "@gsap/react";
+import { useContext, useRef } from "react";
 import { MdDashboard } from "react-icons/md";
 import { HiChartBar } from "react-icons/hi2";
 import { IoPersonSharp } from "react-icons/io5";
-import { BsQuestionCircle } from "react-icons/bs";
 import { handleLogOut } from "../firebase/firestore";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -19,6 +19,9 @@ const Menu = () => {
     color: "#002045",
   };
 
+  const { userData } = useContext(UserContext);
+  const { name, department } = userData;
+  const fullName = `${name.split(" ")[0]} ${name.split(" ")[2]}`;
   const navigate = useNavigate();
   const asideRef = useRef();
 
@@ -70,16 +73,11 @@ const Menu = () => {
 
       <div className="flex flex-col gap-4 animNav">
         <div className="flex gap-2 items-center">
-          <BsQuestionCircle size={24} />
-          <p className="text-[#43474E] text-xs font-bold">Help Center</p>
-        </div>
-
-        <div className="flex gap-2 items-center">
           <IoPersonSharp size={34} />
           <div className="flex flex-col">
-            <p className="text-[#43474E] text-sm font-bold">Onwodi Shalom</p>
-            <p className="text-[10px] text-[#43474E] uppercase">
-              level 4 student
+            <p className="text-[#43474E] text-sm font-bold">{fullName}</p>
+            <p className="text-[10px] text-[#43474E] font-bold">
+              Department: {department}
             </p>
           </div>
         </div>

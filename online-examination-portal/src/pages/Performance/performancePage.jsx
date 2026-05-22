@@ -1,26 +1,26 @@
-import { Link } from "react-router-dom";
-import { VscPreview } from "react-icons/vsc";
-import star_image from "../../images/Icon.png";
-import { MdDashboard, MdSubject } from "react-icons/md";
-import MenuBtn from "../../components/menuBtn";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { Link } from "react-router-dom";
+import { useContext, useRef } from "react";
+import star_image from "../../images/Icon.png";
+import MenuBtn from "../../components/menuBtn";
+import { UserContext } from "../../components/user";
+import { MdDashboard, MdSubject } from "react-icons/md";
 
 const PerformancePage = () => {
+  const { examScoreInfo, userData } = useContext(UserContext);
+
+  const { percentage, correct, incorrect, skippedQuestions, remainingTime } =
+    examScoreInfo;
+
   const blocks = [
-    { title: "CORRECT", num: "42", color: "#83D8A6" },
-    { title: "INCORRECT", num: "5", color: "#BA1A1A" },
-    { title: "SKIPPED", num: "3", color: "#43474E" },
-    { title: "TIME SPENT", num: "01:12:45", color: "#002045" },
+    { title: "CORRECT", num: correct, color: "#83D8A6" },
+    { title: "INCORRECT", num: incorrect, color: "#BA1A1A" },
+    { title: "SKIPPED", num: skippedQuestions, color: "#43474E" },
+    { title: "TIME SPENT", num: remainingTime, color: "#002045" },
   ];
 
-  const progressBars = [
-    { title: "Quantitative Reasoning", percent: "92%" },
-    { title: "Analytical Writing", percent: "78%" },
-    { title: "Logical Deduction", percent: "88%" },
-    { title: "Data Interpretation", percent: "65%" },
-  ];
+  const progressBars = [{ title: userData.department, percent: percentage }];
 
   const sectionRef = useRef();
 
@@ -47,7 +47,19 @@ const PerformancePage = () => {
     { scope: sectionRef },
   );
 
-  return (
+  return !examScoreInfo ? (
+    <div
+      ref={sectionRef}
+      className="h-screen w-screen flex flex-col justify-center items-center p-10 max-[481px]:px-7"
+    >
+      <h1 className="text-2xl text-[#002045] font-semibold animNavtext">
+        I'm sorry but, we have no exam scores to grade.
+      </h1>
+      <p className="text-sm text-[#43474E] min-[1200px]:max-w-148.25 text-center animNavtext">
+        Please start and finish an exam to see your score...
+      </p>
+    </div>
+  ) : (
     <section
       ref={sectionRef}
       className="h-screen w-full flex flex-col gap-4 p-10 max-[481px]:px-7 max-[481px]:pt-7 overflow-y-scroll"
@@ -69,7 +81,15 @@ const PerformancePage = () => {
           />
 
           <h1 className="text-[28px] font-bold text-[#002045] max-[768px]:text-center animNavtext">
-            Outstanding Performance!
+            {percentage < 30
+              ? "You could do better"
+              : percentage < 20
+                ? "Poor Performance!"
+                : percentage >= 50
+                  ? "Great Performace"
+                  : percentage >= 70
+                    ? "Outstanding Performance!"
+                    : "Outstanding Performance!"}
           </h1>
 
           <p className="text-sm text-[#43474E] min-[1200px]:max-w-148.25 text-center animNavtext">
@@ -79,7 +99,8 @@ const PerformancePage = () => {
 
           <div className="animationNav border-[#002045] border-8 min-[768px]:max-h-44 min-[768px]:max-w-44 max-[768px]:h-40 min-[768px]:h-full min-[768px]:w-full max-[768px]:w-40 rounded-full flex flex-col items-center justify-center animNavtext">
             <h3 className="text-[#002045] font-semibold min-[768px]:text-4xl max-[768px]:text-3xl">
-              75<span className="text-[#002045] text-2xl font-semibold">%</span>
+              {percentage || 75}
+              <span className="text-[#002045] text-2xl font-semibold">%</span>
             </h3>
             <p className="text-[#43474E] text-xs font-bold uppercase">
               success rate
@@ -111,7 +132,7 @@ const PerformancePage = () => {
             <div className="animationNav min-[1200px]:max-h-76.5 min-[1200px]:h-full max-[1200px]:h-fit box w-full flex flex-col gap-5">
               <div className="flex gap-2 items-center animNavtext">
                 <MdSubject size={24} />
-                <h2 className="text-2xl font-semibold ">Subject Proficiency</h2>
+                <h2 className="text-2xl font-semibold">Subject Proficiency</h2>
               </div>
 
               <div className="flex flex-col gap-5">
@@ -124,7 +145,7 @@ const PerformancePage = () => {
                       <h3 className="text-[#171C20] text-sm font-semibold">
                         {data.title}
                       </h3>
-                      <p>{data.percent}</p>
+                      <p>{data.percent}%</p>
                     </div>
                     <div className="h-2 w-full bg-[#DEE3E8]">
                       <div
@@ -139,10 +160,10 @@ const PerformancePage = () => {
           </div>
 
           <div className="min-[1200px]:max-w-77.25 max-[1200px]:max-w-full w-full flex min-[1200px]:flex-col gap-5 max-[481px]:flex-wrap">
-            <button className="animationNav bg-[#002045] text-sm font-bold text-white w-full max-h-17 h-full py-6 flex gap-2 justify-center items-center">
+            {/* <button className="animationNav bg-[#002045] text-sm font-bold text-white w-full max-h-17 h-full py-6 flex gap-2 justify-center items-center">
               <VscPreview size={24} />
               Review Answers
-            </button>
+            </button> */}
 
             <Link
               to={"/dashboard"}
@@ -167,8 +188,8 @@ const PerformancePage = () => {
             <h3 className="text-xs text-[#596376] font-bold">NEXT MILESTONE</h3>
 
             <p className="text-sm text-[#596376] font-normal">
-              Based on your results, we recommend the Advanced Analytics Seminar
-              starting next week.
+              Based on your results, we recommend the Advanced{" "}
+              {userData.department} Seminar starting next week.
             </p>
           </div>
         </div>
