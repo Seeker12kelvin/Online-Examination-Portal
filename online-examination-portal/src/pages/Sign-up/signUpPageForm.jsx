@@ -1,9 +1,10 @@
+import gsap from "gsap";
 import { auth } from "../../firebase/config";
-import { useContext, useState } from "react";
 import animation from "../../images/835.gif";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../components/user";
 import { registerUser } from "../../firebase/firestore";
+import { useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
@@ -11,13 +12,14 @@ const SignUpPageForm = () => {
   const { userData, setUserData } = useContext(UserContext);
   const [signUpText, setSignUpText] = useState(false);
   const [passError, setPassError] = useState(false);
+  const [errorMess, setErrorMess] = useState("");
   const [passVis, setPassVis] = useState(false);
   const [animate, setAnimate] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, userId, password, department } = userData;
+    const { name, email, password, department } = userData;
 
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -37,7 +39,8 @@ const SignUpPageForm = () => {
         const uid = userCrendentials.user.uid;
 
         // This is calling the registerUser function
-        await registerUser(name, email, userId, password, department, uid);
+        await registerUser(name, email, password, department, uid);
+        console.log("LOGGED");
 
         setSignUpText(true);
 
@@ -48,16 +51,42 @@ const SignUpPageForm = () => {
         setSignUpText(false);
 
         console.error(err);
+        setErrorMess(
+          "Network error: please make sure you are connected to the internet",
+          err.mess,
+        );
       }
     } else {
       setPassError(true);
     }
   };
 
+  useEffect(() => {
+    if (passError) {
+      const tl = gsap.timeline();
+      tl.fromTo(
+        ".passwarn",
+        { opacity: 0, xPercent: 50 },
+        { opacity: 1, xPercent: 0, duration: 0.5 },
+      )
+        .to(".passwarn", { opacity: 0, xPercent: -50, duration: 0.5 }, "+=3")
+        .call(() => setPassError(false));
+    } else if (errorMess != "") {
+      const tl = gsap.timeline();
+      tl.fromTo(
+        ".errorwarn",
+        { opacity: 0, xPercent: 50 },
+        { opacity: 1, xPercent: 0, duration: 0.5 },
+      )
+        .to(".errorwarn", { opacity: 0, xPercent: -50, duration: 0.5 }, "+=3")
+        .call(() => setPassError(""));
+    }
+  }, [passError, errorMess]);
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-110 w-full max-h-139.25 h-full box"
+      className="max-w-110 w-full max-h-139.25 h-full box relative"
     >
       {!animate ? (
         <div className="h-fit w-full flex flex-col gap-6">
@@ -71,20 +100,6 @@ const SignUpPageForm = () => {
                 name="student-full-name"
                 onChange={(e) =>
                   setUserData((prev) => ({ ...prev, name: e.target.value }))
-                }
-                className="border border-[#C4C6CF] h-9.5 p-4 placeholder:text-[#6B7280] outline-none w-full placeholder:text-sm"
-              />
-            </label>
-
-            <label className="text-[#43474E] font-bold text-xs flex flex-col gap-2">
-              STUDENT ID
-              <input
-                required
-                type="number"
-                name="student-Id"
-                placeholder="Enter your ID number"
-                onChange={(e) =>
-                  setUserData((prev) => ({ ...prev, userId: e.target.value }))
                 }
                 className="border border-[#C4C6CF] h-9.5 p-4 placeholder:text-[#6B7280] outline-none w-full placeholder:text-sm"
               />
@@ -153,10 +168,10 @@ const SignUpPageForm = () => {
                 </button>
               </div>
               {passError && (
-                <div className="h-fit bg-[#cddeee] p-2 rounded-sm w-full">
+                <div className="absolute bottom-20 -translate-x-1/2 passwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full">
                   <p className="text-xs text-[#43474E]">
                     Password must contain at least an uppercase letter, number
-                    and a special character
+                    and a special character. E.g...prefferably an *
                   </p>
                 </div>
               )}
@@ -164,8 +179,8 @@ const SignUpPageForm = () => {
           </div>
 
           <label className="flex gap-2 items-center text-sm text-[#43474E] font-normal max-md:text-xs">
-            <input type="checkbox" /> I agree to the Terms of Service and
-            Privacy Policy.
+            <input type="checkbox" required /> I agree to the Terms of Service
+            and Privacy Policy.
           </label>
 
           <button
@@ -179,6 +194,12 @@ const SignUpPageForm = () => {
         <div className="h-full w-full flex flex-col gap-3 justify-center items-center bg-[#ffffff49]">
           <img src={animation} alt="Loading..." className="size-25" />
           {signUpText && <p>Sign Up Successful...</p>}
+        </div>
+      )}
+
+      {errorMess && (
+        <div className="absolute bottom-1/2 -translate-y-1/2 errorwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full">
+          <p className="text-lg text-[red]">{errorMess}</p>
         </div>
       )}
     </form>

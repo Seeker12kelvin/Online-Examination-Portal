@@ -1,7 +1,7 @@
-import { BsCardChecklist } from "react-icons/bs";
-import { computer_science, information_science } from "../data/data";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { BsCardChecklist } from "react-icons/bs";
+import { computer_science, information_science } from "../data/data";
 
 const EXAM_SETS = {
   "computer science": computer_science,

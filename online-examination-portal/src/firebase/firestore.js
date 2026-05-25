@@ -3,12 +3,11 @@ import { auth, db } from "./config";
 import { signOut } from "firebase/auth";
 
 // This function is for registering all the users' data to the database
-export async function registerUser(name, email, userId, password, department, uid) {
+export async function registerUser(name, email, password, department, uid) {
   try {
     await setDoc(doc(db, "users", uid), {
       name,
       email,
-      userId,
       password,
       department,
     });
