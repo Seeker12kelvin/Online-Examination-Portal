@@ -8,7 +8,6 @@ const UserAuth = ({ children }) => {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
-    userId: "",
     password: "",
     department: "Computer Science",
   });
@@ -41,7 +40,6 @@ const UserAuth = ({ children }) => {
               ...prev,
               name: data.name,
               email: data.email,
-              userId: data.userId,
               department: data.department,
             }));
             setExamScoreInfo((prev) => ({

@@ -1,15 +1,10 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { TfiWrite } from "react-icons/tfi";
 import { BsQuestion } from "react-icons/bs";
 import { IoMdStopwatch } from "react-icons/io";
 import { AiOutlineStock } from "react-icons/ai";
 import { TbMicroscopeFilled } from "react-icons/tb";
-import { UserContext } from "../../components/user";
 
 const DashboardQuizzes = () => {
-  const { examNum, handleExamNum } = useContext(UserContext);
-
   const cardsDetail = [
     {
       icon: <TbMicroscopeFilled size={30} />,
