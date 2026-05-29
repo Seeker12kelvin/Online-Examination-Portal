@@ -149,7 +149,7 @@ export const computer_science = [
   },
 ]
 
-export const information_science = [
+export const information_technology = [
   {
     id: 1,
     question: 'Which topology connects all devices to a central hub',

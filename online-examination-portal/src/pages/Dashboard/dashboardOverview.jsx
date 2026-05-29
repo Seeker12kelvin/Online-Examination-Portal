@@ -1,15 +1,18 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useContext, useMemo } from "react";
 import { BsCardChecklist } from "react-icons/bs";
-import { computer_science, information_science } from "../data/data";
+import { UserContext } from "../../components/user";
+import { computer_science, information_technology } from "../data/data";
 
 const EXAM_SETS = {
   "computer science": computer_science,
-  "information science": information_science,
-  "modern history: the industrial revolution": information_science,
+  "information technology": information_technology,
+  "modern history: the industrial revolution": information_technology,
 };
 
-const DashboardOverview = ({ department = "Computer Science" }) => {
+const DashboardOverview = ({ department }) => {
+  const { setCanAccessExam, setActiveExamTitle } = useContext(UserContext);
+
   const questions = useMemo(() => {
     const normalizedTitle = department?.trim().toLowerCase();
     return EXAM_SETS[normalizedTitle] || [];
@@ -53,6 +56,11 @@ const DashboardOverview = ({ department = "Computer Science" }) => {
 
         <Link
           to={`/exams/${department}`}
+          onClick={() => {
+            setCanAccessExam(true);
+            setActiveExamTitle(department);
+            console.log(department.trim().toLowerCase());
+          }}
           className="bg-[#002045] py-2 px-10 text-white rounded-sm animNavtext"
         >
           Start Quiz
