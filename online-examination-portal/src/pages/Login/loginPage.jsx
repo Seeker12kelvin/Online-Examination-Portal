@@ -21,13 +21,7 @@ const LoginPage = () => {
 
     try {
       setAnimate(true);
-      const loginUserCredentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      const uid = loginUserCredentials.user.uid;
-      localStorage.setItem("user", uid);
+      await signInWithEmailAndPassword(auth, email, password);
       setLoginText(true);
       navigate("/dashboard");
     } catch (err) {

@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import { auth } from "../../firebase/config";
-import animation from "../../images/835.gif";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/loading";
 import { UserContext } from "../../components/user";
 import { registerUser } from "../../firebase/firestore";
 import { useContext, useEffect, useState } from "react";
@@ -10,8 +10,6 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const SignUpPageForm = () => {
   const { userData, setUserData } = useContext(UserContext);
-  const [signUpText, setSignUpText] = useState(false);
-  const [passError, setPassError] = useState(false);
   const [errorMess, setErrorMess] = useState("");
   const [passVis, setPassVis] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -19,16 +17,23 @@ const SignUpPageForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!navigator.onLine) {
+      return setErrorMess(
+        "I'm sorry but you are offline. Please come back online to continue this process.",
+      );
+    }
+
     const { name, email, password, department } = userData;
 
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
     const isPasswordTrue = passwordRegex.test(password);
 
     if (isPasswordTrue) {
       try {
         setAnimate(true);
-
         // This is for registering the users' email and password
         const userCrendentials = await createUserWithEmailAndPassword(
           auth,
@@ -36,52 +41,75 @@ const SignUpPageForm = () => {
           password,
         );
 
-        const uid = userCrendentials.user.uid;
+        const user = userCrendentials.user;
+        const uid = user.uid;
 
         // This is calling the registerUser function
-        await registerUser(name, email, password, department, uid);
-        console.log("LOGGED");
+        try {
+          await registerUser(name, email, password, department, uid, user);
+          navigate("/login");
+        } catch (err) {
+          setAnimate(false);
+          try {
+            await user.delete();
+          } catch (err) {
+            console.log(err);
+          }
 
-        setSignUpText(true);
+          setErrorMess("Network error, please try again");
 
-        navigate("/login");
+          if (err.code?.includes("unavailable")) {
+            setErrorMess(
+              "Network error: please make sure you are connected to the internet",
+            );
+          }
+        }
       } catch (err) {
-        setAnimate(false);
+        if (err.code === "auth/email-already-in-use") {
+          const tl = gsap.timeline();
 
-        setSignUpText(false);
-
-        console.error(err);
-        setErrorMess(
-          "Network error: please make sure you are connected to the internet",
-          err.mess,
-        );
+          tl.fromTo(
+            "emailError",
+            { opacity: 0, xPercent: 50, zIndex: 0 },
+            { opacity: 1, xPercent: 0, zIndex: 10, duration: 0.5 },
+          ).to(
+            "emailError",
+            { opacity: 0, xPercent: -50, zIndex: 0, duration: 0.5 },
+            "+=3",
+          );
+        } else {
+          if (err.code === "unavailable") {
+            setErrorMess(
+              "Network error: please make sure you are connected to the internet",
+            );
+            setAnimate(false);
+          }
+        }
       }
     } else {
-      setPassError(true);
+      const tl = gsap.timeline();
+      tl.fromTo(
+        ".passwarn",
+        { opacity: 0, xPercent: 50, zIndex: 0 },
+        { opacity: 1, xPercent: 0, zIndex: 10, duration: 0.5 },
+      ).to(
+        ".passwarn",
+        { opacity: 0, xPercent: -50, zIndex: 0, duration: 0.5 },
+        "+=3",
+      );
     }
   };
 
   useEffect(() => {
-    if (passError) {
-      const tl = gsap.timeline();
-      tl.fromTo(
-        ".passwarn",
-        { opacity: 0, xPercent: 50 },
-        { opacity: 1, xPercent: 0, duration: 0.5 },
-      )
-        .to(".passwarn", { opacity: 0, xPercent: -50, duration: 0.5 }, "+=3")
-        .call(() => setPassError(false));
-    } else if (errorMess != "") {
+    if (errorMess != "") {
       const tl = gsap.timeline();
       tl.fromTo(
         ".errorwarn",
         { opacity: 0, xPercent: 50 },
         { opacity: 1, xPercent: 0, duration: 0.5 },
-      )
-        .to(".errorwarn", { opacity: 0, xPercent: -50, duration: 0.5 }, "+=3")
-        .call(() => setPassError(""));
+      ).to(".errorwarn", { opacity: 0, xPercent: -50, duration: 0.5 }, "+=3");
     }
-  }, [passError, errorMess]);
+  }, [errorMess]);
 
   return (
     <form
@@ -117,6 +145,9 @@ const SignUpPageForm = () => {
                 }
                 className="border border-[#C4C6CF] h-9.5 p-4 placeholder:text-[#6B7280] outline-none w-full placeholder:text-sm"
               />
+              <div className="absolute bottom-20 -translate-x-1/2 emailError h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full opacity-0 -z-1">
+                <p className="text-sm text-[red]">Email already exists</p>
+              </div>
             </label>
 
             <label className="text-[#43474E] font-bold text-xs flex flex-col gap-2">
@@ -167,14 +198,12 @@ const SignUpPageForm = () => {
                   )}
                 </button>
               </div>
-              {passError && (
-                <div className="absolute bottom-20 -translate-x-1/2 passwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full">
-                  <p className="text-xs text-[#43474E]">
-                    Password must contain at least an uppercase letter, number
-                    and a special character. E.g...prefferably an *
-                  </p>
-                </div>
-              )}
+              <div className="absolute bottom-20 -translate-x-1/2 passwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full opacity-0 -z-1">
+                <p className="text-xs text-[#43474E]">
+                  Password must contain at least an uppercase letter, number and
+                  a special character. E.g...prefferably an *
+                </p>
+              </div>
             </label>
           </div>
 
@@ -191,15 +220,12 @@ const SignUpPageForm = () => {
           </button>
         </div>
       ) : (
-        <div className="h-full w-full flex flex-col gap-3 justify-center items-center bg-[#ffffff49]">
-          <img src={animation} alt="Loading..." className="size-25" />
-          {signUpText && <p>Sign Up Successful...</p>}
-        </div>
+        <Loading text={errorMess} />
       )}
 
       {errorMess && (
         <div className="absolute bottom-1/2 -translate-y-1/2 errorwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full">
-          <p className="text-lg text-[red]">{errorMess}</p>
+          <p className="text-sm text-[red]">{errorMess}</p>
         </div>
       )}
     </form>

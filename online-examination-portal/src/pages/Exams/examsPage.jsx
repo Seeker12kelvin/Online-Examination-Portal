@@ -3,19 +3,21 @@ import { LuTimer } from "react-icons/lu";
 import { MdDashboard, MdNavigateNext } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../components/user";
-import { computer_science, information_science } from "../data/data";
+import { computer_science, information_technology } from "../data/data";
 import { handleExamLogic } from "../../firebase/firestore";
+import Loading from "../../components/loading";
 
 const EXAM_SETS = {
   "computer science": computer_science,
-  "information science": information_science,
-  "modern history: the industrial revolution": information_science,
+  "information technology": information_technology,
+  "modern history: the industrial revolution": information_technology,
 };
 
 const TOTAL_TIME = 60 * 20;
 
 const ExamRunner = ({ title }) => {
-  const { handleExamNum } = useContext(UserContext);
+  const { handleExamNum, setCanAccessExam, setActiveExamTitle, userId } =
+    useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [reviewed, setReviewed] = useState({});
@@ -118,7 +120,6 @@ const ExamRunner = ({ title }) => {
   };
 
   const handleExam = async () => {
-    const uid = localStorage.getItem("user");
     const dividedScore = score / questions.length;
     const percentage = Math.round(dividedScore * 100);
     const calculate = percentage / 100;
@@ -126,10 +127,17 @@ const ExamRunner = ({ title }) => {
     const incorrect = questions.length - correct;
     const timeSpent = TOTAL_TIME - timeLeft;
     const remainingTime = formatDuration(timeSpent);
-    await handleExamLogic(
-      { percentage, skippedQuestions, correct, incorrect, remainingTime },
-      uid,
-    );
+    const examScore = {
+      percentage,
+      skippedQuestions,
+      correct,
+      incorrect,
+      remainingTime,
+    };
+    await handleExamLogic(examScore, userId);
+    console.log(examScore);
+    setCanAccessExam(false);
+    setActiveExamTitle(null);
   };
 
   const formatDuration = (seconds) => {
@@ -194,8 +202,8 @@ const ExamRunner = ({ title }) => {
                 currentQuestion.option_two,
                 currentQuestion.option_three,
                 currentQuestion.option_four,
-              ].map((option) => (
-                <div key={option} className="flex flex-col gap-4">
+              ].map((option, index) => (
+                <div key={index + 1} className="flex flex-col gap-4">
                   <label className="max-h-19 h-full box flex gap-5 items-center focus:bg-[#D6E0F6] p-4 rounded-sm">
                     <input
                       type="radio"
@@ -266,8 +274,13 @@ const ExamRunner = ({ title }) => {
 };
 
 const ExamsPage = () => {
+  const { canAccessExam, activeExamTitle } = useContext(UserContext);
   const { title } = useParams();
-  return <ExamRunner key={title} title={title} />;
+  if (!canAccessExam || title !== activeExamTitle) {
+    return <Loading />;
+  } else {
+    return <ExamRunner key={title} title={title} />;
+  }
 };
 
 export default ExamsPage;

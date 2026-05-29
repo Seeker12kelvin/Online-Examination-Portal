@@ -4,11 +4,11 @@ import { IoMdStopwatch } from "react-icons/io";
 import { AiOutlineStock } from "react-icons/ai";
 import { TbMicroscopeFilled } from "react-icons/tb";
 
-const DashboardQuizzes = () => {
+const DashboardQuizzes = ({ department = "Computer Science" }) => {
   const cardsDetail = [
     {
       icon: <TbMicroscopeFilled size={30} />,
-      title: "Computer Science",
+      title: department,
       desc: "A detailed assessment covering helicase functions, Okazaki fragments, and polymerase error rates.",
       time: "20 MIN",
       num_of_quest: "15 Qs",

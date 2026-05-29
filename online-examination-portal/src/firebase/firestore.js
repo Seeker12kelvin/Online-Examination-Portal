@@ -2,28 +2,17 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "./config";
 import { signOut } from "firebase/auth";
 
+
 // This function is for registering all the users' data to the database
 export async function registerUser(name, email, password, department, uid) {
-  try {
-    await setDoc(doc(db, "users", uid), {
-      name,
-      email,
-      password,
-      department,
-    });
-  } catch(err) {
-    console.error('Error uploading data to the database: ', err);
-  }
+  await setDoc(doc(db, "users", uid), {
+    name,
+    email,
+    password,
+    department,
+  });
 }
 
-// Log Out function
-export const handleLogOut = async () => {
-  try {
-    await signOut(auth);
-  } catch (err) {
-    console.error("Error logging out: ", err);
-  }
-};
 
 // This function is for fetching all of the users' data from the database
 export async function fetchUsers(uid) {
@@ -31,14 +20,26 @@ export async function fetchUsers(uid) {
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
     const data = []
-    if(!docSnap){
-      return console.log("User doesn't exist")
-    } else {
+    if(docSnap.exists()){
       data.push(docSnap.data())
+    } else {
+      return console.log("User doesn't exist")
     }
     return data
   } catch(err){
-    console.error('Error retrieving data from the database: ', err)
+    if (err.code === "unavailable") {
+      return "Please check your internet connection"
+    }
+  }
+};
+
+
+// Log Out function
+export const handleLogOut = async () => {
+  try {
+    await signOut(auth);
+  } catch (err) {
+    console.error("Error logging out: ", err);
   }
 };
 

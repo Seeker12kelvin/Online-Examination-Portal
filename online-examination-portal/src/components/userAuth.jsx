@@ -12,6 +12,10 @@ const UserAuth = ({ children }) => {
     department: "Computer Science",
   });
 
+  const [userId, setUserId] = useState("");
+  const [networkError, setNetworkError] = useState("");
+  const [canAccessExam, setCanAccessExam] = useState(false);
+  const [activeExamTitle, setActiveExamTitle] = useState("");
   const [examNum, setExamNum] = useState(0);
   const [examScoreInfo, setExamScoreInfo] = useState({
     percentage: "",
@@ -32,30 +36,33 @@ const UserAuth = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const uid = localStorage.getItem("user");
+        const uid = user.uid;
+        setUserId(uid);
         if (uid) {
           const userInfo = await fetchUsers(uid);
-          userInfo.map((data) => {
-            setUserData((prev) => ({
-              ...prev,
-              name: data.name,
-              email: data.email,
-              department: data.department,
-            }));
-            setExamScoreInfo((prev) => ({
-              ...prev,
-              percentage: data.percentage,
-              correct: data.correct,
-              incorrect: data.incorrect,
-              skippedQuestions: data.skippedQuestions,
-              remainingTime: data.remainingTime,
-            }));
-          });
-          setUser(true);
+          if (!userInfo) {
+            setNetworkError("Please check your internet connection...");
+          } else {
+            userInfo.map((data) => {
+              setUserData((prev) => ({
+                ...prev,
+                name: data.name,
+                email: data.email,
+                department: data.department,
+              }));
+              setExamScoreInfo((prev) => ({
+                ...prev,
+                percentage: data.percentage,
+                correct: data.correct,
+                incorrect: data.incorrect,
+                skippedQuestions: data.skippedQuestions,
+                remainingTime: data.remainingTime,
+              }));
+            });
+          }
         }
-        console.log("user is authenticated");
+        setUser(true);
       } else {
-        console.log("user is not authenticated");
         setUser(false);
       }
     });
@@ -75,6 +82,14 @@ const UserAuth = ({ children }) => {
       handleExamNum,
       examScoreInfo,
       setExamScoreInfo,
+      canAccessExam,
+      setCanAccessExam,
+      activeExamTitle,
+      setActiveExamTitle,
+      networkError,
+      setNetworkError,
+      userId,
+      setUserId,
     }),
     [
       userData,
@@ -84,6 +99,14 @@ const UserAuth = ({ children }) => {
       handleExamNum,
       examScoreInfo,
       setExamScoreInfo,
+      canAccessExam,
+      setCanAccessExam,
+      activeExamTitle,
+      setActiveExamTitle,
+      networkError,
+      setNetworkError,
+      userId,
+      setUserId,
     ],
   );
 

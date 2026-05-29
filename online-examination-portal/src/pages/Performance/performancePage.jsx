@@ -47,13 +47,13 @@ const PerformancePage = () => {
     { scope: sectionRef },
   );
 
-  return !examScoreInfo ? (
+  return !percentage ? (
     <div
       ref={sectionRef}
       className="h-screen w-screen flex flex-col justify-center items-center p-10 max-[481px]:px-7"
     >
       <h1 className="text-2xl text-[#002045] font-semibold animNavtext">
-        I'm sorry but, we have no exam scores to grade.
+        I'm sorry but, you have no exam scores to grade.
       </h1>
       <p className="text-sm text-[#43474E] min-[1200px]:max-w-148.25 text-center animNavtext">
         Please start and finish an exam to see your score...
@@ -99,7 +99,7 @@ const PerformancePage = () => {
 
           <div className="animationNav border-[#002045] border-8 min-[768px]:max-h-44 min-[768px]:max-w-44 max-[768px]:h-40 min-[768px]:h-full min-[768px]:w-full max-[768px]:w-40 rounded-full flex flex-col items-center justify-center animNavtext">
             <h3 className="text-[#002045] font-semibold min-[768px]:text-4xl max-[768px]:text-3xl">
-              {percentage || 75}
+              {percentage}
               <span className="text-[#002045] text-2xl font-semibold">%</span>
             </h3>
             <p className="text-[#43474E] text-xs font-bold uppercase">
