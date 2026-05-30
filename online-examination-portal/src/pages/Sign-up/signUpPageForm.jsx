@@ -9,8 +9,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const SignUpPageForm = () => {
-  const { userData, setUserData } = useContext(UserContext);
-  const [errorMess, setErrorMess] = useState("");
+  const { userData, setUserData, errorMess, setErrorMess } =
+    useContext(UserContext);
   const [passVis, setPassVis] = useState(false);
   const [animate, setAnimate] = useState(false);
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const SignUpPageForm = () => {
     const { name, email, password, department } = userData;
 
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
 
     const isPasswordTrue = passwordRegex.test(password);
 
@@ -95,7 +95,7 @@ const SignUpPageForm = () => {
       ).to(
         ".passwarn",
         { opacity: 0, xPercent: -50, zIndex: 0, duration: 0.5 },
-        "+=3",
+        "+=5",
       );
     }
   };
@@ -107,9 +107,11 @@ const SignUpPageForm = () => {
         ".errorwarn",
         { opacity: 0, xPercent: 50 },
         { opacity: 1, xPercent: 0, duration: 0.5 },
-      ).to(".errorwarn", { opacity: 0, xPercent: -50, duration: 0.5 }, "+=3");
+      )
+        .to(".errorwarn", { opacity: 0, xPercent: -50, duration: 0.5 }, "+=3")
+        .call(() => setErrorMess(""));
     }
-  }, [errorMess]);
+  }, [errorMess, setErrorMess]);
 
   return (
     <form
@@ -137,7 +139,7 @@ const SignUpPageForm = () => {
               INSTITUTIONAL EMAIL
               <input
                 required
-                type="text"
+                type="email"
                 name="student-email"
                 placeholder="jodoe@gmail.com"
                 onChange={(e) =>
@@ -198,11 +200,27 @@ const SignUpPageForm = () => {
                   )}
                 </button>
               </div>
-              <div className="absolute bottom-20 -translate-x-1/2 passwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full opacity-0 -z-1">
-                <p className="text-xs text-[#43474E]">
-                  Password must contain at least an uppercase letter, number and
-                  a special character. E.g...prefferably an *
+              <div className="absolute bottom-20 -translate-x-1/2 passwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full opacity-0 -z-1 flex flex-col gap-2">
+                <p className="text-sm text-[#43474E]">
+                  Password must contain at least one of the following:
                 </p>
+                <ul className="leading-5 ml-3.5">
+                  <li className="text-xs text-[#666] list-disc">
+                    At least one lowercase letter
+                  </li>
+                  <li className="text-xs text-[#666] list-disc">
+                    At least one uppercase letter
+                  </li>
+                  <li className="text-xs text-[#666] list-disc">
+                    At least one digit
+                  </li>
+                  <li className="text-xs text-[#666] list-disc">
+                    At least one special character
+                  </li>
+                  <li className="text-xs text-[#666] list-disc">
+                    Minimum of 8 characters
+                  </li>
+                </ul>
               </div>
             </label>
           </div>
@@ -220,7 +238,7 @@ const SignUpPageForm = () => {
           </button>
         </div>
       ) : (
-        <div className="h-full w-full flex flex-col gap-3 justify-center items-center bg-[#ffffff49] border">
+        <div className="h-full w-full flex flex-col gap-3 justify-center items-center bg-[#ffffff49]">
           <img src={animation} alt="Loading..." className="size-25" />
           {errorMess && (
             <h1 className="text-lg text-[#ff0000b0] text-center">
@@ -232,7 +250,9 @@ const SignUpPageForm = () => {
 
       {errorMess && (
         <div className="absolute bottom-1/2 -translate-y-1/2 errorwarn h-fit bg-[#cddeee] p-2 rounded-sm max-w-85.5 w-full">
-          <p className="text-sm text-[red]">{errorMess}</p>
+          <p className="text-lg text-[#002045] text-center font-semibold">
+            {errorMess}
+          </p>
         </div>
       )}
     </form>

@@ -21,7 +21,13 @@ const Menu = () => {
 
   const { userData } = useContext(UserContext);
   const { name, department } = userData;
-  const fullName = `${name.split(" ")[0]} ${name.split(" ")[2]}`;
+  const userName = [...name.split(" ")];
+  const fullName =
+    userName.length > 2
+      ? `${name.split(" ")[0]} ${name.split(" ")[2]}`
+      : userName.length > 1
+        ? `${name.split(" ")[0]} ${name.split(" ")[1]}`
+        : name.split(" ")[0];
   const navigate = useNavigate();
   const asideRef = useRef();
 
