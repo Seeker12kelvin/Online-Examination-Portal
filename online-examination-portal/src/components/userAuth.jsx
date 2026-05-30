@@ -13,6 +13,7 @@ const UserAuth = ({ children }) => {
   });
 
   const [userId, setUserId] = useState("");
+  const [errorMess, setErrorMess] = useState("");
   const [networkError, setNetworkError] = useState("");
   const [canAccessExam, setCanAccessExam] = useState(false);
   const [activeExamTitle, setActiveExamTitle] = useState("");
@@ -90,6 +91,8 @@ const UserAuth = ({ children }) => {
       setNetworkError,
       userId,
       setUserId,
+      errorMess,
+      setErrorMess,
     }),
     [
       userData,
@@ -107,6 +110,8 @@ const UserAuth = ({ children }) => {
       setNetworkError,
       userId,
       setUserId,
+      errorMess,
+      setErrorMess,
     ],
   );
 

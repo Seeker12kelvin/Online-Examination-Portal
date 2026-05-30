@@ -11,7 +11,7 @@ const DashboardPage = () => {
   const { userData } = useContext(UserContext);
   const { name, department } = userData;
   const sectionRef = useRef();
-  const fullName = name.split(" ")[0];
+  const firstName = name.split(" ")[0];
 
   useGSAP(
     () => {
@@ -47,7 +47,7 @@ const DashboardPage = () => {
             Student Dashboard
           </h1>
           <p className="text-[#43474E] text-sm animNavtext">
-            Welcome back, {fullName}.
+            Welcome back, {firstName}.
           </p>
         </div>
         <MenuBtn />

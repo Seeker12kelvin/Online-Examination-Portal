@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage = () => {
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData, setErrorMess } = useContext(UserContext);
   const [loginText, setLoginText] = useState(false);
   const [animate, setAnimate] = useState(false);
   const navigate = useNavigate();
@@ -25,6 +25,10 @@ const LoginPage = () => {
       setLoginText(true);
       navigate("/dashboard");
     } catch (err) {
+      navigate("/");
+      setErrorMess(
+        "I'm sorry but you do not have an account with us. Sign up?",
+      );
       setAnimate(false);
       setLoginText(false);
       console.error(err);
