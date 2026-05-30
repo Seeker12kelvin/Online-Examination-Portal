@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import { auth } from "../../firebase/config";
+import animation from "../../images/835.gif";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../components/loading";
 import { UserContext } from "../../components/user";
 import { registerUser } from "../../firebase/firestore";
 import { useContext, useEffect, useState } from "react";
@@ -220,7 +220,14 @@ const SignUpPageForm = () => {
           </button>
         </div>
       ) : (
-        <Loading text={errorMess} />
+        <div className="h-full w-full flex flex-col gap-3 justify-center items-center bg-[#ffffff49] border">
+          <img src={animation} alt="Loading..." className="size-25" />
+          {errorMess && (
+            <h1 className="text-lg text-[#ff0000b0] text-center">
+              {errorMess}
+            </h1>
+          )}
+        </div>
       )}
 
       {errorMess && (
