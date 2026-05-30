@@ -1,16 +1,78 @@
-# React + Vite
+# Online Examination Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite online examination portal built with Firebase Authentication and Firestore. The app lets students sign up, log in, access a protected dashboard, take exams, and track performance results.
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Firebase Authentication for sign-up and sign-in
+- Firestore user profile storage and exam result persistence
+- Protected routes for dashboard and exam pages
+- Responsive student dashboard with performance summary and quiz cards
+- Timed exam runner with question navigation, review, and scoring
+- Tailwind CSS styling and GSAP animations for a polished UI
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- Vite
+- Firebase Auth
+- Firestore
+- Tailwind CSS 4
+- React Router DOM 7
+- GSAP
+- React Icons
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/App.jsx` – application root; wraps routes with `UserAuth`
+- `src/components/userAuth.jsx` – Firebase auth listener and shared `UserContext`
+- `src/components/routes.jsx` – route definitions for signup, login, dashboard, exams, and performance
+- `src/components/protectedLayouts.jsx` – protects authenticated pages
+- `src/pages/Sign-up/` – signup page and form with validation
+- `src/pages/Login/` – exam login page
+- `src/pages/Dashboard/` – dashboard layout, overview, quizzes, and performance components
+- `src/pages/Exams/` – exam runner and exam logic
+- `src/firebase/config.js` – Firebase initialization
+- `src/firebase/firestore.js` – Firestore helper functions for users and exam scoring
+
+## Firebase Configuration
+
+Create a `.env` file in the project root with these variables:
+
+```env
+VITE_API_KEY=
+VITE_AUTH_DOMAIN=
+VITE_PROJECT_ID=
+VITE_STORAGE_BUCKET=
+VITE_MESSAGING_SENDER_ID=
+VITE_APP_ID=
+VITE_MEASUREMENT_ID=
+```
+
+## Setup & Run
+
+Install dependencies and start development:
+
+```bash
+npm install
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Notes
+
+- `UserAuth` listens for Firebase auth state and populates user profile data.
+- `ProtectedLayouts` waits for a valid authenticated user before rendering protected children.
+- Exam results are updated in Firestore using `handleExamLogic`.
+- The app uses `UserContext` to share state like user profile, exam score info, and UI state across components.
