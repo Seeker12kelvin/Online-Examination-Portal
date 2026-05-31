@@ -184,6 +184,19 @@ const ExamRunner = ({ title }) => {
                   Return to Dashboard
                 </Link>
               </button>
+              <p className="text-[#43474E] text-sm">or</p>
+              <button
+                onClick={() => handleExam()}
+                className="animationNav bg-[#E4E9EE] text-sm font-bold text-[#171C20] w-fit max-h-17 h-full rounded-sm max-[345px]:p-4 p-6"
+              >
+                <Link
+                  to={"/dashboard/performance"}
+                  className="flex items-center gap-2"
+                >
+                  <MdDashboard size={24} />
+                  Go to Performance
+                </Link>
+              </button>
             </div>
           ) : questions.length ? (
             <div className="w-full min-[1200px]:max-h-127 min-[1200px]:h-full max-[1200px]:h-fit box flex flex-col gap-5">
