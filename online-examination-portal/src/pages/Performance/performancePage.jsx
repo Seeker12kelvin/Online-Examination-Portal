@@ -1,14 +1,34 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Link } from "react-router-dom";
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import star_image from "../../images/Icon.png";
 import MenuBtn from "../../components/menuBtn";
 import { UserContext } from "../../components/user";
 import { MdDashboard, MdSubject } from "react-icons/md";
+import { fetchUsers } from "../../firebase/firestore";
 
 const PerformancePage = () => {
-  const { examScoreInfo, userData } = useContext(UserContext);
+  const { examScoreInfo, setExamScoreInfo, setNetworkError, userData, userId } =
+    useContext(UserContext);
+
+  const handleFetchResultsLogic = async () => {
+    const userInfo = await fetchUsers(userId);
+    if (!userInfo) {
+      setNetworkError("Please check your internet connection...");
+    } else {
+      userInfo.map((data) => {
+        setExamScoreInfo((prev) => ({
+          ...prev,
+          percentage: data.percentage,
+          correct: data.correct,
+          incorrect: data.incorrect,
+          skippedQuestions: data.skippedQuestions,
+          remainingTime: data.remainingTime,
+        }));
+      });
+    }
+  };
 
   const { percentage, correct, incorrect, skippedQuestions, remainingTime } =
     examScoreInfo;
@@ -28,21 +48,23 @@ const PerformancePage = () => {
     () => {
       const tl = gsap.timeline();
 
-      tl.fromTo(
-        ".animationNav",
-        { scale: 0 },
-        { scale: 1, delay: 0.5, duration: 0.1, stagger: 0.05, ease: "none" },
-      ).fromTo(
-        ".animNavtext",
-        { clipPath: "inset(0 0 100% 0)" },
-        {
-          clipPath: "inset(0 0 0% 0)",
-          duration: 0.2,
-          stagger: 0.1,
-          ease: "none",
-        },
-        "<",
-      );
+      tl.call(() => handleFetchResultsLogic())
+        .fromTo(
+          ".animationNav",
+          { scale: 0 },
+          { scale: 1, delay: 0.5, duration: 0.1, stagger: 0.05, ease: "none" },
+        )
+        .fromTo(
+          ".animNavtext",
+          { clipPath: "inset(0 0 100% 0)" },
+          {
+            clipPath: "inset(0 0 0% 0)",
+            duration: 0.2,
+            stagger: 0.1,
+            ease: "none",
+          },
+          "<",
+        );
     },
     { scope: sectionRef },
   );
@@ -50,14 +72,22 @@ const PerformancePage = () => {
   return !percentage ? (
     <div
       ref={sectionRef}
-      className="h-screen w-screen flex flex-col justify-center items-center p-10 max-[481px]:px-7"
+      className="h-screen w-screen flex flex-col justify-between items-center p-10 max-[481px]:px-7"
     >
-      <h1 className="text-2xl text-[#002045] font-semibold animNavtext">
-        I'm sorry but, you have no exam scores to grade.
-      </h1>
-      <p className="text-sm text-[#43474E] min-[1200px]:max-w-148.25 text-center animNavtext">
-        Please start and finish an exam to see your score...
-      </p>
+      <div className="w-full flex justify-end items-center">
+        <MenuBtn />
+      </div>
+
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="text-2xl text-[#002045] font-semibold animNavtext text-center">
+          I'm sorry but, you have no exam scores to grade.
+        </h1>
+        <p className="text-sm text-[#43474E] min-[1200px]:max-w-148.25 text-center animNavtext">
+          Please start and finish an exam to see your score...
+        </p>
+      </div>
+
+      <div />
     </div>
   ) : (
     <section

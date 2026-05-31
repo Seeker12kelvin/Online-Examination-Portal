@@ -11,7 +11,10 @@ const EXAM_SETS = {
 };
 
 const DashboardOverview = ({ department }) => {
-  const { setCanAccessExam, setActiveExamTitle } = useContext(UserContext);
+  const { setCanAccessExam, setActiveExamTitle, examScoreInfo } =
+    useContext(UserContext);
+
+  const { percentage } = examScoreInfo;
 
   const questions = useMemo(() => {
     const normalizedTitle = department?.trim().toLowerCase();
@@ -55,13 +58,16 @@ const DashboardOverview = ({ department }) => {
         </div>
 
         <Link
-          to={`/exams/${department}`}
+          to={!percentage ? `/exams/${department}` : ""}
           onClick={() => {
-            setCanAccessExam(true);
-            setActiveExamTitle(department);
-            console.log(department.trim().toLowerCase());
+            if (!percentage) {
+              setCanAccessExam(true);
+              setActiveExamTitle(department);
+            } else {
+              return;
+            }
           }}
-          className="bg-[#002045] py-2 px-10 text-white rounded-sm animNavtext"
+          className={`bg-[#002045] py-2 px-10 text-white rounded-sm animNavtext opacity-${percentage ? "50" : "100"} active:scale-[0.7] transition-all duration-100`}
         >
           Start Quiz
         </Link>
